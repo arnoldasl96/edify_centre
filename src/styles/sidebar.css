@@ -1,0 +1,139 @@
+@import "./variables.css";
+
+/* =====================
+    components
+========================
+*/
+
+.side-bar {
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    height: 100vh;
+}
+
+.sticky {
+    top: 0;
+    position: fixed;
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    transition: ease 400ms;
+}
+
+.container {
+    height: 100vh;
+}
+
+.arrow {
+    margin-bottom: 15px;
+    float: right;
+    font-size: 1.5em;
+    margin: 15px 15px 0px 0px;
+    transform: rotate(180deg);
+    transition: ease 450ms;
+}
+
+.arrow:hover {
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.sidebar-link {
+    display: block;
+    padding: 20px 1px;
+    width: 282px;
+    height: fit-content;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--light-color);
+    cursor: pointer;
+    transition: ease 800ms;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus,
+.sidebar-link:active,
+.sidebar-link:hover>a *,
+.sidebar-link:focus>a *,
+.sidebar-link:active>a *,
+a.router-link-active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.router-link-active>i {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+a i {
+    color: inherit;
+    font-size: 2rem;
+    margin: 0 10px 5px 0px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    transition: ease 800ms;
+}
+
+a {
+    color: inherit;
+    margin: auto 20px;
+}
+
+a span {
+    text-transform: uppercase;
+}
+
+.sidebar-link a,
+.sidebar-link a span {
+    color: var(--light-color);
+    transition: ease 800ms;
+}
+
+#collapse-sidebar:checked~ul li .sidebar-link span {
+    display: none;
+}
+
+#collapse-sidebar:checked~ul li .sidebar-link {
+    width: 75px;
+    transition: ease-out 450ms;
+}
+
+#collapse-sidebar:checked~label i {
+    transform: rotate(0);
+    transition: 450ms;
+}
+
+#collapse-sidebar:checked .container {
+    background-color: #fff;
+}
+
+#collapse-sidebar {
+    display: none;
+}
+
+.container ul li:last-child {
+    position: absolute;
+    bottom: 2em;
+}
+
+.logout {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .logout {
+        display: block;
+    }
+}
+
+.small {
+    width: 128px;
+    background-color: transparent;
+    transition: ease 400ms;
+}
+
+.large {
+    width: 450px;
+    background-color: transparent;
+    transition: ease 400ms;
+}

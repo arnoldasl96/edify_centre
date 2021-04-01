@@ -1,0 +1,66 @@
+Date : 2021-03-29 15:17:06
+Directory : f:\projects\vue\edify-project\front-end\src
+Total : 32 files,  1860 codes, 52 comments, 161 blanks, all 2073 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Vue        |         16 |        720 |          0 |         63 |        783 |
+| CSS        |          8 |        520 |         13 |         82 |        615 |
+| JSON       |          2 |        494 |          0 |          4 |        498 |
+| JavaScript |          6 |        126 |         39 |         12 |        177 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                             | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                |         32 |      1,860 |         52 |        161 |      2,073 |
+| components                                                                       |          7 |        278 |          0 |         33 |        311 |
+| router                                                                           |          1 |         59 |         36 |          4 |         99 |
+| services                                                                         |          3 |         54 |          3 |          3 |         60 |
+| settings                                                                         |          2 |        494 |          0 |          4 |        498 |
+| styles                                                                           |          8 |        520 |         13 |         82 |        615 |
+| views                                                                            |          8 |        408 |          0 |         28 |        436 |
+| views\Dashboardviews                                                             |          2 |         47 |          0 |          5 |         52 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                         | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| f:\projects\vue\edify-project\front-end\src\App.vue                              | Vue        |         34 |          0 |          2 |         36 |
+| f:\projects\vue\edify-project\front-end\src\axios.js                             | JavaScript |          3 |          0 |          1 |          4 |
+| f:\projects\vue\edify-project\front-end\src\components\CourseForm.vue            | Vue        |         57 |          0 |          7 |         64 |
+| f:\projects\vue\edify-project\front-end\src\components\Footer.vue                | Vue        |         18 |          0 |          5 |         23 |
+| f:\projects\vue\edify-project\front-end\src\components\Header.vue                | Vue        |         11 |          0 |          3 |         14 |
+| f:\projects\vue\edify-project\front-end\src\components\Navbar.vue                | Vue        |         51 |          0 |          6 |         57 |
+| f:\projects\vue\edify-project\front-end\src\components\Sidebar.vue               | Vue        |         62 |          0 |          6 |         68 |
+| f:\projects\vue\edify-project\front-end\src\components\course.vue                | Vue        |         60 |          0 |          3 |         63 |
+| f:\projects\vue\edify-project\front-end\src\components\lesson.vue                | Vue        |         19 |          0 |          3 |         22 |
+| f:\projects\vue\edify-project\front-end\src\main.js                              | JavaScript |         10 |          0 |          4 |         14 |
+| f:\projects\vue\edify-project\front-end\src\router\index.js                      | JavaScript |         59 |         36 |          4 |         99 |
+| f:\projects\vue\edify-project\front-end\src\services\Token.service.js            | JavaScript |         23 |          3 |          2 |         28 |
+| f:\projects\vue\edify-project\front-end\src\services\api.service.js              | JavaScript |          0 |          0 |          1 |          1 |
+| f:\projects\vue\edify-project\front-end\src\services\user.service.js             | JavaScript |         31 |          0 |          0 |         31 |
+| f:\projects\vue\edify-project\front-end\src\settings\course.json                 | JSON       |        449 |          0 |          0 |        449 |
+| f:\projects\vue\edify-project\front-end\src\settings\links.json                  | JSON       |         45 |          0 |          4 |         49 |
+| f:\projects\vue\edify-project\front-end\src\styles\dashboard.css                 | CSS        |          6 |          0 |          0 |          6 |
+| f:\projects\vue\edify-project\front-end\src\styles\form.css                      | CSS        |         66 |          0 |          9 |         75 |
+| f:\projects\vue\edify-project\front-end\src\styles\login.css                     | CSS        |        111 |          0 |         14 |        125 |
+| f:\projects\vue\edify-project\front-end\src\styles\navbar.css                    | CSS        |         54 |          9 |         14 |         77 |
+| f:\projects\vue\edify-project\front-end\src\styles\passwordReset.css             | CSS        |         80 |          0 |         11 |         91 |
+| f:\projects\vue\edify-project\front-end\src\styles\registration.css              | CSS        |        101 |          0 |         14 |        115 |
+| f:\projects\vue\edify-project\front-end\src\styles\sidebar.css                   | CSS        |         94 |          4 |         20 |        118 |
+| f:\projects\vue\edify-project\front-end\src\styles\variables.css                 | CSS        |          8 |          0 |          0 |          8 |
+| f:\projects\vue\edify-project\front-end\src\views\Dashboard.vue                  | Vue        |         35 |          0 |          2 |         37 |
+| f:\projects\vue\edify-project\front-end\src\views\Dashboardviews\CoursesList.vue | Vue        |         33 |          0 |          2 |         35 |
+| f:\projects\vue\edify-project\front-end\src\views\Dashboardviews\profile.vue     | Vue        |         14 |          0 |          3 |         17 |
+| f:\projects\vue\edify-project\front-end\src\views\ForgotPassword.vue             | Vue        |         58 |          0 |          6 |         64 |
+| f:\projects\vue\edify-project\front-end\src\views\Home.vue                       | Vue        |         17 |          0 |          2 |         19 |
+| f:\projects\vue\edify-project\front-end\src\views\Login.vue                      | Vue        |        118 |          0 |          7 |        125 |
+| f:\projects\vue\edify-project\front-end\src\views\NotFound.vue                   | Vue        |         14 |          0 |          4 |         18 |
+| f:\projects\vue\edify-project\front-end\src\views\Registration.vue               | Vue        |        119 |          0 |          2 |        121 |
+| Total                                                                            |            |      1,860 |         52 |        161 |      2,073 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

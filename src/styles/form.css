@@ -1,0 +1,129 @@
+@import "./variables.css";
+.workshop-form {
+    display: flex;
+    text-transform: capitalize;
+}
+
+.form-group {
+    display: block;
+    margin: 15px;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-white {
+    background-color: white;
+    color: black
+}
+
+.small {
+    height: 150px;
+    width: 90%;
+}
+
+.big {
+    height: 450px;
+    width: 90%;
+}
+
+.hidden {
+    overflow: hidden;
+}
+
+#Title {
+    font-size: 16px;
+    height: 2em;
+    width: 90%;
+    display: block;
+}
+
+form {
+    display: grid;
+    grid-template: 100% / auto 390px;
+    height: 100%;
+    width: 100%;
+}
+
+label {
+    display: block;
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+select {
+    display: block;
+    font-size: 19px;
+    height: 2em;
+    width: 50%;
+}
+
+.workshop-form h1 {
+    text-transform: uppercase;
+    margin-top: 15px;
+}
+
+.main {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    height: 100%;
+    border-radius: 15px;
+}
+
+.secondary {
+    display: block;
+    float: right;
+    min-height: 90vh;
+    width: 390px;
+    background-color: var(--secondary-color);
+}
+
+.card {
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--secondary-color-light);
+    box-shadow: var(--shadow);
+    max-width: 95%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card h1 {
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.full-size {
+    width: 95%;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#Workshop-hours {
+    padding: 1em;
+    width: 100px;
+    font-size: 20px;
+}
+
+.ql-toolbar,
+.ql-editor {
+    background-color: white;
+    color: #000;
+}
+
+.ql-editor {
+    height: 7em;
+}

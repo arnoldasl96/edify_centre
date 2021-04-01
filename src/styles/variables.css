@@ -1,0 +1,8 @@
+:root {
+    --primary-color: #F09A3E;
+    --secondary-color: #464D5F;
+    --secondary-color-light: #888d9b;
+    --dark-color: #000;
+    --light-color: #fff;
+    --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

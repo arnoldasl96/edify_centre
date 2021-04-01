@@ -1,0 +1,49 @@
+{
+    "sidebar": [{
+            "id": 1,
+            "icon": "fas fa-user",
+            "name": "My profile",
+            "link": "/dashboard/profile",
+            "role": ["any"]
+        },
+        {
+            "id": 2,
+            "icon": "fas fa-book",
+            "name": "All Workshops",
+            "link": "/dashboard/workshop",
+            "role": ["any"]
+
+        },
+        {
+            "id": 3,
+            "icon": "fas fa-user",
+            "name": "All users",
+            "link": "/dashboard/users",
+            "role": ["admin"]
+
+        },
+        {
+            "id": 4,
+            "icon": "fas fa-user-graduate",
+            "name": "My workshops",
+            "link": "/dashboard/workshop/:userid",
+            "role": ["student", "teacher"]
+
+        },
+        {
+            "id": 5,
+            "icon": "fas fa-user-graduate",
+            "name": "My teachers",
+            "link": "/dashboard/teachers/:userid",
+            "role": ["student"]
+
+        },
+        {
+            "id": 6,
+            "icon": "fas fa-question",
+            "name": "forum",
+            "link": "/dashboard/forum",
+            "role": ["any"]
+        }
+    ]
+}
