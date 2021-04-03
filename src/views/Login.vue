@@ -1,6 +1,6 @@
 <template>
   <div
-       class="login"
+  class="login"
   >
 <div class="message">
   <h1>logins:</h1>
@@ -30,6 +30,13 @@
    <button @click.prevent="fillLoginForm('teacher@teacher.com','teacher')" class="submit">fill teacher</button>
 </div>
 
+<!-- <div class="text">
+  <h1>Edify Centre</h1>
+  <p>combines innovation, experience, non-formal education, passion and hard work and create learning tools
+     and methods to help the growth, development and well-being of each company or individual we provide training for.
+     Throughout our trainings and workshops, we enhance  human interaction, with unique and flexible cooperation ways of 
+     learning</p>
+</div> -->
 
     <div class="login-side">
       <img :src="`${publicPath}Images/edifylogo.png`" alt="logo" />

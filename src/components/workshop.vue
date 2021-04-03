@@ -5,7 +5,7 @@
       <h3>{{ data.code }}</h3>
     </div>
     <div class="short-description">
-      <p>{{ data.description }}</p>
+      <div v-html="data.description"></div>
     </div>
     <div class="more">
       <button class="btn-more" href="/workshop/:id">see more</button>
@@ -32,6 +32,7 @@ export default {
   border-color: var(--secondary-color-light);
   border: 2px;
   padding: 10px;
+  width: 80%;
 }
 .title h1,
 .title h3 {

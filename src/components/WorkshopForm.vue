@@ -1,6 +1,10 @@
 <template>
   <div class="workshop-form">
-    <form @submit.prevent="handle">
+    <form
+      class="form-main"
+      enctype="multipart/form-data"
+      @submit.prevent="handle"
+    >
       <div class="main">
         <div class="centered">
           <h1>Create a Workshop</h1>
@@ -31,6 +35,7 @@
           <label for="description">Description</label>
 
           <QuillEditor
+            class="description"
             @update:content="setNewVal"
             ref="description"
             theme="snow"
@@ -41,17 +46,52 @@
             scrola
           />
         </div>
-        <div class="add-lesson">
-          <button @click="onsubmit">onsubmit</button>
+        <hr class="solid" />
+        <div class="files-group">
+          <button class="btn btn-primary" @click="AddFile">Add file</button>
+          <div
+            v-for="(f, k) in WorkshopData.files"
+            :key="k"
+            class="list-of-files"
+          >
+            <file-uploader
+              @delete-file="DeleteFile"
+              :data="f"
+              :id="k"
+            ></file-uploader>
+          </div>
+        </div>
+        <hr class="solid" />
+        <div class="form-group-lg">
+          <button @click="AddSession" class="btn btn-primary">
+            Add Session
+          </button>
+          <div
+            class="list-of-files"
+            v-for="(s, k) in WorkshopData.sessions"
+            :key="k"
+          >
+            <session
+              @delete-session="DeleteSession"
+              :data="s"
+              :id="k"
+            ></session>
+          </div>
+        </div>
+        <div class="add-workshop">
+          <button class="btn btn-primary" @click="onsubmit">
+            Save Workshop
+          </button>
         </div>
       </div>
+
       <div class="secondary">
         <div class="card">
           <h1>Contribution</h1>
           <div class="form-group">
             <label for="resp-person">Responsible person</label>
             <select
-            multiple
+              multiple
               class="full-size"
               name="resp-person"
               id="resp-person"
@@ -63,12 +103,10 @@
           </div>
         </div>
         <div class="card">
-          <h1>Publish</h1>
+          <h1>Status</h1>
           <div class="form-group">
-            <label for="status">Status</label>
             <select
               class="full-size"
-              
               name="status"
               id="status"
               v-model="WorkshopData.status"
@@ -77,21 +115,7 @@
               <option value="Draft">Draft</option>
               <option value="Deleted">Deleted</option>
               <option value="Unlisted">Unlisted</option>
-               <option value="Completed">Completed</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="access">Access</label>
-            <select
-              class="full-size"
-              name="access"
-              id="access"
-              v-model="WorkshopData.access"
-            >
-            
-              <option value="Private" selected>Private</option>
-              <option value="Published">Public</option>
+              <option value="Completed">Completed</option>
             </select>
           </div>
         </div>
@@ -109,7 +133,22 @@
             />
           </div>
         </div>
-
+        <div class="card">
+          <h1>Category</h1>
+          <div class="form-group">
+            <select
+              class="full-size"
+              name="category"
+              id="category"
+              v-model="WorkshopData.category"
+            >
+              <option value="Leadership" selected>Leadership</option>
+              <option value="Personal Skills">Personal Skills</option>
+              <option value="Awareness">Awareness</option>
+              <option value="Well-being">Well-being</option>
+            </select>
+          </div>
+        </div>
         <div class="card">
           <h1>Duration</h1>
           <div class="form-group">
@@ -147,18 +186,35 @@
 </template>
 
 <script>
-import { QuillEditor, } from "@vueup/vue-quill";
+import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import File_Uploader from "./File_Uploader";
+import Session from "./session.vue";
+import WorkshopServices from "../services/workshop.service";
 export default {
   name: "Workshop form",
+  emits: ["delete-session", "delete-file"],
   components: {
     QuillEditor,
+    "file-uploader": File_Uploader,
+    Session,
   },
   data() {
     return {
-      short_description:{},
-      content:{},
+      short_description: {},
+      content: {},
       WorkshopData: {
+        sessions: [
+          {
+            id: "",
+          },
+        ],
+        files: [
+          {
+            url: "",
+            note: "",
+          },
+        ],
         title: [],
         short_description: [],
         description: [],
@@ -167,25 +223,47 @@ export default {
           from: [],
           to: [],
         },
+        category: "",
         hours: [],
         price: [],
         status: "Published",
-        access: "Private",
       },
     };
   },
   methods: {
-    onsubmit(){
-      console.log(this.WorkshopData);
+    onsubmit() {
+      WorkshopServices.CreateWorkshop(this.WorkshopData);
     },
     setNewVal() {
-     this.WorkshopData.description = this.$refs.description.getHTML()
-     this.WorkshopData.short_description = this.$refs.short_description.getHTML()
-    }
+      this.WorkshopData.description = this.$refs.description.getHTML();
+      this.WorkshopData.short_description = this.$refs.short_description.getHTML();
+    },
+    AddFile() {
+      this.WorkshopData.files.push({
+        url: "",
+        note: "",
+      });
+    },
+    DeleteFile(id) {
+      if (id == 0) {
+        this.WorkshopData.files = [];
+      }
+      if (id != 0) {
+        this.WorkshopData.files.splice(id, 1);
+      }
+    },
+    AddSession() {
+      this.WorkshopData.sessions.push({
+        id: "",
+      });
+    },
+    DeleteSession(id) {
+      this.WorkshopData.sessions.splice(id, 1);
+    },
   },
 };
 </script>
-<style scoped src="../styles/form.css">
+<style src="../styles/form.css">
 </style>
 
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-const userLink = 'api/user/'
+const userLink = 'user/'
 import jwt_decode from 'jwt-decode'
 import TokenService from "./Token.service";
 const UserService = {

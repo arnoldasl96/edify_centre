@@ -41,7 +41,7 @@
     display: block;
 }
 
-form {
+.form-main {
     display: grid;
     grid-template: 100% / auto 390px;
     height: 100%;
@@ -80,7 +80,7 @@ select {
 .secondary {
     display: block;
     float: right;
-    min-height: 90vh;
+    min-height: 100vh;
     width: 390px;
     background-color: var(--secondary-color);
 }
@@ -104,6 +104,7 @@ select {
 
 .full-size {
     width: 95%;
+    height: 3em;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -126,4 +127,25 @@ input[type=number]::-webkit-outer-spin-button {
 
 .ql-editor {
     height: 7em;
+}
+
+.list-of-files {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.description>.ql-editor {
+    height: 300px;
+}
+
+.ql-tooltip {
+    display: none;
+}
+
+.add-workshop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 10px;
 }

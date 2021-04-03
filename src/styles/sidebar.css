@@ -94,7 +94,7 @@ a span {
 }
 
 #collapse-sidebar:checked~ul li .sidebar-link {
-    width: 75px;
+    width: 74px;
     transition: ease-out 450ms;
 }
 

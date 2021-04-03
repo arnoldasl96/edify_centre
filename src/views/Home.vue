@@ -1,18 +1,26 @@
 <template>
   <div class="homepage">
-  <Navbar/>
-  <WorkshopForm/>
+    <session></session>
   </div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
-import WorkshopForm from '../components/WorkshopForm'
+import session from '../components/session.vue';
 export default {
   name: "Home",
   components: {
-    Navbar,
-    WorkshopForm,
+    session
   }
 };
 </script>
+
+
+<style scoped>
+.homepage{
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+}
+</style>

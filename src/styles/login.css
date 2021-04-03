@@ -1,4 +1,11 @@
 @import "./variables.css";
+.text {
+    position: absolute;
+    height: 450px;
+    width: 450px;
+    margin: auto;
+}
+
 .message {
     position: absolute;
     background-color: var(--light-color);
