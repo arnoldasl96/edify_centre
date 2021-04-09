@@ -16,34 +16,36 @@
         },
         {
             "id": 3,
-            "icon": "fas fa-user",
+            "icon": "fas fa-users",
             "name": "All users",
             "link": "/dashboard/users",
             "role": ["admin"]
 
         },
+
         {
             "id": 4,
-            "icon": "fas fa-user-graduate",
+            "icon": "fas fa-book-open",
             "name": "My workshops",
-            "link": "/dashboard/workshop/:userid",
-            "role": ["student", "teacher"]
+            "link": "/dashboard/myworkshops",
+            "role": ["student", "trainer"]
 
         },
         {
             "id": 5,
             "icon": "fas fa-user-graduate",
-            "name": "My teachers",
-            "link": "/dashboard/teachers/:userid",
+            "name": "My trainers",
+            "link": "/dashboard/trainers/:userid",
             "role": ["student"]
 
         },
         {
             "id": 6,
-            "icon": "fas fa-question",
-            "name": "forum",
-            "link": "/dashboard/forum",
-            "role": ["any"]
+            "icon": "fas fa-bell",
+            "name": "Requests",
+            "link": "/dashboard/requests",
+            "role": ["admin"]
+
         }
     ]
 }

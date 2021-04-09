@@ -2,11 +2,16 @@
   <div class="app">
     <router-view />
   </div>
+  <!-- teleport target -->
+  <div id="modals"></div>
 </template>
 <script>
+import * as VeeValidate from "vee-validate";
 export default {
   name: "App",
-  components: {},
+  components: {
+    VeeValidate,
+  },
   data() {
     return {
       publicPath: process.env.BASE_URL,
@@ -15,17 +20,17 @@ export default {
 };
 </script>
 <style>
-.btn-margin-sm{
-  margin:5px;
+.btn-margin-sm {
+  margin: 5px;
 }
-.btn-margin-md{
-  margin:10px;
+.btn-margin-md {
+  margin: 10px;
 }
-.btn-margin-lg{
-  margin:15px;
+.btn-margin-lg {
+  margin: 15px;
 }
-.btn-margin-xl{
-  margin:20px;
+.btn-margin-xl {
+  margin: 20px;
 }
 .btn {
   cursor: pointer;
@@ -38,6 +43,7 @@ export default {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin: 8px;
 }
 .btn-primary {
   background-color: var(--primary-color);
@@ -52,9 +58,14 @@ export default {
   background-color: rgba(221, 14, 14, 0.897);
   transition: ease 100ms;
 }
+.btn-green {
+  background-color: rgba(108, 241, 55, 0.753);
+  transition: ease 100ms;
+}
 .btn-primary:hover,
 .btn-add:hover,
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-green:hover {
   transform: scale(1.1);
   transition: ease 100ms;
 }
@@ -67,7 +78,13 @@ export default {
   transition: ease 100ms;
 }
 input[type="file"] {
-  display: none;
+  opacity: 0;
+}
+.error {
+  display: block;
+  color: #ba3939;
+  background: #ffe0e0;
+  border: 1px solid #a33a3a;
 }
 html {
   background: url("./assets/bg-4.png") no-repeat center center fixed;
@@ -89,5 +106,24 @@ html {
   text-decoration: none;
   list-style: none;
   box-sizing: border-box;
+}
+*:focus,
+*:hover {
+  outline: none;
+}
+
+.user-image {
+  border-radius: 50%;
+  height: 50px;
+  widows: 50px;
+}
+.text-sm {
+  font-size: small;
+}
+.bold {
+  font-weight: bold;
+}
+.capitalize {
+  text-transform: capitalize;
 }
 </style>

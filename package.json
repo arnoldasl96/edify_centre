@@ -11,10 +11,10 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "jwt-decode": "^3.1.2",
+    "vee-validate": "^4.2.4",
     "vue": "^3.0.7",
     "vue-router": "^4.0.0-0",
-    "vueditor": "^0.3.1",
-    "vuex": "^4.0.0"
+    "yup": "^1.0.0-alpha.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

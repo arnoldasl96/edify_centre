@@ -1,7 +1,6 @@
 import axios from "axios";
 const workshoplink = 'workshop/'
-import jwt_decode from 'jwt-decode'
-import TokenService from "./Token.service";
+import UserService from "./user.service";
 
 const WorkshopServices = {
     getAllWorkshops() {
@@ -20,9 +19,21 @@ const WorkshopServices = {
     UpdateInformation(id) {
         return axios.patch(`${workshoplink}${id}`, data)
     },
-    getWorkshopByIdid(id) {
+    getWorkshopById(id) {
         return axios.get(`${workshoplink}${id}`)
     },
+    getSessions(id) {
+        return axios.get(`${workshoplink}${id}/sessions`)
+    },
+    getAuthor(id) {
+        return axios.get(`${workshoplink}${id}/author`)
+    },
+    getStudents(id) {
+        return axios.get(`${workshoplink}${id}/students`)
+    },
+    getWorkshopInfo(id) {
+        return axios.get(`${workshoplink}${id}/info`)
+    }
 }
 
 export default WorkshopServices;

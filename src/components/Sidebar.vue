@@ -1,7 +1,12 @@
 <template>
-  <div class="side-bar" :class="[sticky ? [collapse? 'small': 'large'] : '']">
+  <div class="side-bar" :class="[sticky ? [collapse ? 'small' : 'large'] : '']">
     <div class="container" :class="[sticky ? 'sticky' : '']">
-      <input type="checkbox" name="collapse" id="collapse-sidebar" v-model="collapse"/>
+      <input
+        type="checkbox"
+        name="collapse"
+        id="collapse-sidebar"
+        v-model="collapse"
+      />
       <label for="collapse-sidebar">
         <i class="fas fa-angle-double-right arrow"></i
       ></label>
@@ -40,7 +45,7 @@ export default {
       el: [],
       role: "",
       sticky: false,
-      collapse:true,
+      collapse: true,
     };
   },
   methods: {
@@ -55,7 +60,7 @@ export default {
       }
       if (window.scrollY > 100) {
         this.sticky = true;
-        this.collapse=true;
+        this.collapse = true;
       }
     },
   },

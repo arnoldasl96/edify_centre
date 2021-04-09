@@ -1,22 +1,18 @@
 
 <template>
-   <div class="div">
-       this is footer
-   </div>
- </template>
+  <div class="div">this is footer</div>
+</template>
  
  <script>
- export default {
-  name:'Footer',
-  componenets:{
-
-  }
- }
- </script>
+export default {
+  name: "Footer",
+  componenets: {},
+};
+</script>
  
  <style>
- footer{
-    background-color: aquamarine;
-    color: white;
+footer {
+  background-color: aquamarine;
+  color: white;
 }
- </style>
+</style>

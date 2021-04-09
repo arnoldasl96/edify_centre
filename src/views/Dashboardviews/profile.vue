@@ -6,7 +6,7 @@
       </div>
       <div class="profile-information">
         <form>
-              <h1>Profile Information</h1>
+          <h1>Profile Information</h1>
           <div class="grid-container">
             <div class="form-control">
               <label for="FirstName"> First Name</label>
@@ -28,20 +28,16 @@
             </div>
             <div class="form-control">
               <label for="birthday">birthday</label>
-              <input type="date" name="birthday" id="birthday">
+              <input type="date" name="birthday" id="birthday" />
             </div>
-           <div class="form-control">
-               <label for="gender"> Gender</label>
-               <select name="gender" id="gender">
-                   <option value="other">other</option>
-                   <option value="male">male</option>
-                   <option value="female">female</option>
-               </select>
-           </div>
-
-
-
-
+            <div class="form-control">
+              <label for="gender"> Gender</label>
+              <select name="gender" id="gender">
+                <option value="other">other</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+              </select>
+            </div>
           </div>
         </form>
       </div>
@@ -98,16 +94,15 @@ img {
 }
 .form-control input,
 .form-control label {
-
   display: block;
   font-size: 20px;
   width: 100%;
 }
 .form-control label {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 .form-control {
-    margin: 0.5em;
+  margin: 0.5em;
 }
 .grid-container {
   display: grid;

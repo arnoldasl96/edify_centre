@@ -1,9 +1,9 @@
 <template>
   <Navbar />
-  <div class="dashboard"  @scroll="handleScroll">
+  <div class="dashboard" @scroll="handleScroll">
     <Sidebar />
     <div class="main-container">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
@@ -17,13 +17,12 @@ export default {
     Sidebar,
     Navbar,
   },
-  data(){
-    return{
-      scrollPosition:Number
-    }
+  data() {
+    return {
+      scrollPosition: Number,
+    };
   },
-  methods:{
-  }
+  methods: {},
 };
 </script>
 

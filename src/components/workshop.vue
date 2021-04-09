@@ -5,10 +5,16 @@
       <h3>{{ data.code }}</h3>
     </div>
     <div class="short-description">
-      <div v-html="data.description"></div>
+      <div v-html="data.short_description"></div>
     </div>
     <div class="more">
-      <button class="btn-more" href="/workshop/:id">see more</button>
+      <router-link
+        class="btn-more"
+        :to="{ name: 'workshopView', params: { id: data._id } }"
+        exact
+        tag="button"
+        >see more</router-link
+      >
     </div>
   </div>
 </template>
@@ -26,7 +32,6 @@ export default {
 
 .workshop {
   background-color: var(--secondary-color);
-  height: fit-content;
   margin: 20px;
   border-radius: 15px;
   border-color: var(--secondary-color-light);
@@ -54,8 +59,8 @@ export default {
 }
 
 .short-description {
-  color: var(--light-color);
-  height: 2em;
+  color: white !important;
+  height: fit-content;
   overflow: hidden;
 }
 h1 {

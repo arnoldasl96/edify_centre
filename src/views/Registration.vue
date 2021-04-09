@@ -79,6 +79,7 @@
 
 <script>
 import axios from "axios";
+import UserService from "../services/user.service";
 export default {
   name: "Registration",
   components: {},
@@ -91,6 +92,7 @@ export default {
         email: "",
         password: "",
         confirm_password: "",
+        role: "student",
       },
       error: "",
     };
@@ -103,16 +105,9 @@ export default {
       if (this.userData.password !== this.userData.confirm_password) {
         this.error = "passwords do not match !";
       }
-      const Response = await axios.post("user/registration/", {
-        firstname: this.firstname,
-        lastname: this.lastname,
-        email: this.email,
-        password: this.password,
-        role: "student",
+      const Response = UserService.Register(this.userData).then((res) => {
+        if (res.data.user != null) this.$router.push("/login");
       });
-      if (Response.data.message == "success") {
-        this.$router.push("/login");
-      }
     },
   },
 };

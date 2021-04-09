@@ -35,6 +35,10 @@
     max-height: 100%;
 }
 
+.wider {
+    width: 250px;
+}
+
 
 /* nav link lists */
 
@@ -47,7 +51,7 @@
     text-align: center;
     line-height: 75px;
     display: block;
-    width: 150px;
+    width: fit-content;
     height: 100px;
 }
 
@@ -68,6 +72,11 @@
 .nav-container a.active {
     background-color: #4CAF50;
     color: white;
+}
+
+.user-info {
+    display: inline;
+    width: 50%;
 }
 
 @media (max-width: 600px) {

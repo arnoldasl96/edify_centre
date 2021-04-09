@@ -1,15 +1,10 @@
 <template>
   <div>
     <div class="title">
-      <h1>All workshops</h1>
+      <h1>My personal workshops</h1>
     </div>
     <!-- search bar -->
     <div class="filtration">
-      <!-- <div class="left">
-        <input type="text" v-model="search" @keyup="FilterItems">
-    
-      </div>
-       -->
       <select class="workshop-category" v-model="category">
         <option value="" selected>Select Category</option>
         <option value="Leadership">Leadership</option>
@@ -26,15 +21,6 @@
         @keyup="FilterItems"
         placeholder="Search..."
       />
-
-      <router-link
-        v-if="isAdmin"
-        class="right btn btn-primary"
-        tag="button"
-        :to="{ name: 'AddWorkshop' }"
-      >
-        <i class="fas fa-plus"></i> Workshop
-      </router-link>
     </div>
     <!-- search bar -->
     <div class="list">
@@ -48,27 +34,22 @@
 </template>
 
 <script>
-import workshop from "../../components/workshop";
 import UserService from "../../services/user.service";
-import WorkshopServices from "../../services/workshop.service";
+import workshop from "../../components/workshop";
 export default {
-  name: "WorkshopsView",
+  name: "myWorkshops",
   components: {
     workshop,
   },
   data() {
     return {
-      isAdmin: false,
       coursesList: [],
       search: "",
       category: "",
     };
   },
   mounted: function () {
-    if (UserService.getRole() == "admin") {
-      this.isAdmin = true;
-    }
-    WorkshopServices.getAllWorkshops().then((response) => {
+    UserService.getMyWorkshops().then((response) => {
       this.coursesList = response.data;
     });
   },
@@ -91,6 +72,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 h1 {

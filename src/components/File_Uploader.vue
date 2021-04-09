@@ -9,7 +9,11 @@
           name="`fileUpload-${id}`"
           :id="`fileUpload-${id}`"
         />
-        <button class="btn-upload" @click="$refs.uploader.click()">
+        <button
+          type="button"
+          class="btn-upload"
+          @click="$refs.uploader.click()"
+        >
           <i class="fas fa-file-upload"></i>
         </button>
       </div>
@@ -17,24 +21,26 @@
         <span>{{ fileName }}</span>
       </div>
       <div class="note-group">
-        <label id="note" class="note" :for="`file-note-${id}`">Note</label>
+        <label id="note" class="note" :for="`${id}`">Note</label>
         <input
-        class="file-note"
+          class="file-note"
           type="text"
           :name="`file-note-${id}`"
-          :id="`file-note-${id}`"
+          :id="`${id}`"
           v-model="note"
-          @change="OnChange"
         />
       </div>
       <div class="btns">
-
-        <button class="btn btn-add" @click="AddFile">Save</button>
-        <button v-if="id>0" class="btn btn-danger" @click="onDelete(id)">Delete</button>
+        <i @click="AddFile" class="fas fa-save"></i>
+        <i @click="onDelete(data)" class="fas fa-trash-alt"></i>
       </div>
     </div>
 
-    <div class="file-uploader" :class="[uploaded ? 'small': 'large']" v-if="uploaded == true">
+    <div
+      class="file-uploader"
+      :class="[uploaded ? 'small' : 'large']"
+      v-if="uploaded == true"
+    >
       <div class="icon">
         <i class="fas fa-file-upload"></i>
       </div>
@@ -45,7 +51,7 @@
         {{ note }}
       </div>
       <div class="btn">
-        <i @click="onDelete(id)" class="fas fa-times remove"></i>
+        <i @click="onDelete(data)" class="fas fa-times remove"></i>
       </div>
     </div>
   </div>
@@ -53,7 +59,6 @@
 
 <script>
 import axios from "axios";
-import { resolveDirective } from "vue";
 export default {
   props: ["data", "id"],
   name: "file-uploader",
@@ -62,31 +67,41 @@ export default {
       response: null,
       file: null,
       note: "",
-      fileName: "no file selected",
+      fileName: "no file chosen",
       uploaded: false,
     };
   },
   methods: {
-    onDelete(id) {
-      this.$emit("delete-file", id);
+    onDelete(data) {
+      this.$emit("delete-file", data);
     },
     OnChange(event) {
-      this.file = event.target.files[0];
-      this.fileName = this.file.name;
+      if (event.target.files != null) {
+        this.file = event.target.files[0];
+         this.fileName = this.file.name;
+      }
     },
     AddFile() {
-      const fd = new FormData();
-      fd.append("file", this.file, this.file.name);
-      axios.post("files/", fd).then((res) => {
-        this.response = res;
-        const url =
-          this.response.config.baseURL +
-          this.response.data.destination.substring(2) +
-          this.response.data.filename;
-        this.data.url = url;
-        this.data.note = this.note;
-        this.uploaded = true;
-      });
+      if (this.file == null) {
+        this.$refs.uploader.click();
+      }
+
+      if (this.file != null) {
+        const fd = new FormData();
+        fd.append("file", this.file, this.file.name);
+        axios.post("files/", fd).then((res) => {
+          this.response = res;
+          const url =
+            this.response.config.baseURL +
+            this.response.data.destination.substring(2) +
+            this.response.data.filename;
+          this.data.url = url;
+          this.data.note = this.note;
+          this.data.type = this.file.type;
+          this.data.name = this.file.name;
+          this.uploaded = true;
+        });
+      }
     },
   },
 };
@@ -94,13 +109,33 @@ export default {
 
 <style scoped>
 @import "../styles/variables.css";
-.btns{
+.error {
+  display: block;
+  color: blue;
+}
+.btns {
   display: flex;
-  flex-direction: column;
-  
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+.btns i {
+  cursor: pointer;
+  font-size: 30px;
+  margin: 5px;
+  transition: 150ms ease-out;
+}
+.btns i:hover {
+  font-size: 35px;
+  transition: 150ms ease-out;
+}
+.fa-save {
+  color: blue;
+}
+.fa-trash-alt {
+  color: red;
 }
 .small {
-  height: 50px;
+  height: 3em;
 }
 .large {
   height: 100px;
@@ -139,6 +174,7 @@ export default {
 }
 .note {
   display: inline;
+  font-weight: bold;
 }
 .file-note {
   width: 100%;
@@ -158,6 +194,10 @@ export default {
 }
 .remove:hover {
   font-size: 2em;
+}
+.name {
+  overflow: hidden;
+  margin: 0px 1em;
 }
 span {
   overflow: hidden;

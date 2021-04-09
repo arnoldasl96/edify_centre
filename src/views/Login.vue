@@ -1,36 +1,37 @@
 <template>
-  <div
-  class="login"
-  >
-<div class="message">
-  <h1>logins:</h1>
-  <h3>admin</h3>
-  <span>
-    email:admin@admin.com
-  </span>
-  <span>
-    password:admin123
-  </span>
-  <button @click.prevent="fillLoginForm('admin@admin.com','admin123')" class="submit">fill admin</button>
-    <h3>student</h3>
-  <span>
-    email:student@student.com
-  </span>
-  <span>
-    password:student
-  </span>
-   <button @click.prevent="fillLoginForm('student@student.com','student')" class="submit">fill student</button>
-    <h3>teacher</h3>
-  <span>
-    email:teacher@teacher.com
-  </span>
-  <span>
-    password:teacher
-  </span>
-   <button @click.prevent="fillLoginForm('teacher@teacher.com','teacher')" class="submit">fill teacher</button>
-</div>
-
-<!-- <div class="text">
+  <div class="login">
+    <div class="message">
+      <h1>logins:</h1>
+      <h3>admin</h3>
+      <span> email:admin@admin.com </span>
+      <span> password:admin123 </span>
+      <button
+        @click.prevent="fillLoginForm('admin@admin.com', 'admin123')"
+        class="submit"
+      >
+        fill admin
+      </button>
+      <h3>student</h3>
+      <span> email:student@student.com </span>
+      <span> password:student </span>
+      <button
+        @click.prevent="fillLoginForm('student@student.com', 'student')"
+        class="submit"
+      >
+        fill student
+      </button>
+      <h3>teacher</h3>
+      <span> email:teacher@teacher.com </span>
+      <span> password:teacher </span>
+      <button
+        @click.prevent="fillLoginForm('teacher@teacher.com', 'teacher')"
+        class="submit"
+      >
+        fill teacher
+      </button>
+    </div>
+    do coming soon
+    <!-- <div class="text">
   <h1>Edify Centre</h1>
   <p>combines innovation, experience, non-formal education, passion and hard work and create learning tools
      and methods to help the growth, development and well-being of each company or individual we provide training for.
@@ -62,9 +63,9 @@
           />
         </div>
 
-<div class="form-control">
-        <span v-show="error!= ''" style="color:red">{{error}}</span>
-</div>
+        <div class="form-control">
+          <span v-show="error != ''" style="color: red">{{ error }}</span>
+        </div>
 
         <button class="submit" type="submit">Login</button>
 
@@ -93,18 +94,17 @@ export default {
         email: "",
         password: "",
       },
-      error:"",
+      error: "",
     };
   },
   methods: {
-      clearErrors(){
-          this.error='';
-          
-      },
-      fillLoginForm(email,password){
-        this.loginData.email=email;
-        this.loginData.password = password;
-      },
+    clearErrors() {
+      this.error = "";
+    },
+    fillLoginForm(email, password) {
+      this.loginData.email = email;
+      this.loginData.password = password;
+    },
     async handleLogin() {
       try {
         const Response = await axios.post("user/login", this.loginData);
@@ -112,16 +112,15 @@ export default {
           TokenService.setAccessToken(Response.data.accessToken);
           TokenService.setRefreshToken(Response.data.refreshToken);
           UserService.getName();
-          this.$router.push("/dashboard/courses");
+          this.$router.push({ name: "WorkshopsList" });
         }
       } catch (error) {
         if (error.response) {
-          this.error =error.response.data.message
-          console.log(error.response.data)
+          this.error = error.response.data.message;
         } else if (error.request) {
-          this.error =error.request
+          this.error = error.request;
         } else {
-          this.error ="Error: " + error.message
+          this.error = "Error: " + error.message;
         }
       }
     },
