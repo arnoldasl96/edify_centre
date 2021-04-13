@@ -1,18 +1,24 @@
 <template>
-  <Navbar />
-  <div class="dashboard" @scroll="handleScroll">
-    <Sidebar />
-    <div class="main-container">
-      <router-view />
+  <div>
+    <Navbar />
+    <div
+      class="dashboard"
+      @scroll="handleScroll"
+    >
+      <Sidebar />
+      <div class="main-container">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Sidebar from '../components/Sidebar.vue';
+import Navbar from '../components/Navbar.vue';
+
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   components: {
     Sidebar,
     Navbar,

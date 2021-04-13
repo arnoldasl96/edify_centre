@@ -149,7 +149,9 @@ input[type=number]::-webkit-outer-spin-button {
 .description>.ql-editor {
     height: 300px;
 }
-
+#biography>.ql-editor {
+    height: 100%;
+}
 .ql-tooltip {
     display: none;
 }

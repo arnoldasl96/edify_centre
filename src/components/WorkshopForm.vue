@@ -1,84 +1,105 @@
 <template>
   <div class="workshop-form">
-    <Form @submit="onsubmit" class="form-main">
+    <form
+      class="form-main"
+      @submit.prevent="onsubmit"
+    >
       <div class="main">
         <div class="centered">
           <h1>Create a Workshop</h1>
         </div>
         <div class="form-group">
           <label for="Title">Title</label>
-          <Field
+          <input
+            id="Title"
+            v-model="WorkshopData.title"
             type="text"
             name="Title"
-            id="Title"
-            :rules="validateTitle"
             placeholder="workshop title"
-            v-model="WorkshopData.title"
-          />
-          <ErrorMessage name="Title" class="error" />
+          >
+          <div
+            v-if="Validation.title"
+            class="error"
+          >
+            <span>{{ Validation.title }}</span>
+          </div>
         </div>
         <div class="form-group">
           <label for="short-description">Short Description</label>
 
           <QuillEditor
-            @update:content="setNewVal"
-            theme="snow"
-            toolbar="minimal"
             id="short-description"
             ref="short_description"
+            theme="snow"
+            toolbar="minimal"
             :content="short_description"
+            @update:content="setNewVal"
           />
         </div>
         <div class="form-group">
           <label for="description">Description</label>
 
           <QuillEditor
-            class="description"
-            @update:content="setNewVal"
-            ref="description"
-            theme="snow"
-            scrollingContainer="true"
-            toolbar="full"
             id="description"
+            ref="description"
+            class="description"
+            theme="snow"
+            scrolling-container="true"
+            toolbar="full"
             :content="description"
-            scrola
+            @update:content="setNewVal"
           />
         </div>
-        <hr class="solid" />
+        <hr class="solid">
         <div class="files-group">
-          <button class="btn btn-primary" @click="AddFile">
-            <i class="fas fa-plus"></i>file
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="AddFile"
+          >
+            <i class="fas fa-plus" /> file
           </button>
           <div class="list-of-files">
             <file-uploader
-              v-for="(f, k) in WorkshopData.files"
-              :key="k"
-              :ref="`file-${k}`"
-              @delete-file="DeleteFile"
+              v-for="f in filesList"
+              :id="f._id"
+              :key="f._id"
+              :ref="`file-uploader-${f._id}`"
               :data="f"
-              :id="k"
-            ></file-uploader>
+              @delete-file="DeleteFile"
+              @add-file="SaveFile"
+            />
           </div>
         </div>
-        <hr class="solid" />
+        <hr class="solid">
         <div class="form-group-lg">
-          <button @click="AddSession" class="btn btn-primary">
-            <i class="fas fa-plus"></i>session
-          </button>
-          <div
-            class="list-of-files"
-            v-for="(s, k) in WorkshopData.sessions"
-            :key="k"
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="AddSession"
           >
+            <i class="fas fa-plus" />session
+          </button>
+          <div class="list-of-files">
             <session
-              @delete-session="DeleteSession"
-              :data="s"
-              :id="k"
-            ></session>
+              v-for="s in SessionsList"
+              :id="s.Arrayid"
+              :key="s.Arrayid"
+              :ref="`Session-${s.Arrayid}`"
+              :details="s"
+              @delete-session="RemoveSession"
+              @save-session-id="SaveSession"
+              @edit-session="EditSession"
+            />
           </div>
         </div>
         <div class="add-workshop">
-          <button class="btn btn-primary" type="submit">Save Workshop</button>
+          <button
+            class="btn btn-primary"
+            type="submit"
+          >
+            Save Workshop
+          </button>
         </div>
       </div>
 
@@ -87,262 +108,348 @@
           <h1>Contribution</h1>
           <div class="form-group">
             <label for="resp-person">Main trainer</label>
-            <Field
-              as="select"
+            <select
+              v-for="i in responsible_person"
+              id="resp-person"
+              :key="i._id"
+              v-model="WorkshopData.responsible_person"
               class="full-size"
               name="resp-person"
-              id="resp-person"
-              v-model="this.WorkshopData.responsible_person"
-              v-for="i in this.responsible_person"
-              :key="i._id"
-              :rules="validateTrainer"
             >
               <option :value="`${i._id}`">
                 {{ i.firstname + " " + i.lastname }}
               </option>
-            </Field>
-            <ErrorMessage class="error" name="resp-person" />
+            </select>
+            <div
+              v-if="Validation.main_trainer"
+              class="error"
+            >
+              <span>{{ Validation.main_trainer }}</span>
+            </div>
           </div>
         </div>
         <div class="card">
           <h1>Status</h1>
           <div class="form-group">
-            <Field
-              as="select"
-              :rules="validateStatus"
-              class="full-size"
-              name="status"
+            <select
               id="status"
               v-model="WorkshopData.status"
+              class="full-size"
+              name="status"
             >
-              <option value="Published">Published</option>
-              <option value="Draft">Draft</option>
-              <option value="Deleted">Deleted</option>
-              <option value="Unlisted">Unlisted</option>
-              <option value="Completed">Completed</option>
-            </Field>
-            <ErrorMessage class="error" name="status" />
+              <option value="Published">
+                Published
+              </option>
+              <option value="Draft">
+                Draft
+              </option>
+              <option value="Deleted">
+                Deleted
+              </option>
+              <option value="Unlisted">
+                Unlisted
+              </option>
+              <option value="Completed">
+                Completed
+              </option>
+            </select>
+            <!-- <ErrorMessage class="error" name="status" /> -->
           </div>
         </div>
         <div class="card">
           <label for="price"><h1>Pricing</h1></label>
           <div class="form-group">
-            <Field
+            <input
+              id="price"
+              v-model="WorkshopData.price"
               step="0.01"
               type="number"
               name="price"
-              id="price"
               placeholder="59.99€"
-              v-model="WorkshopData.price"
-              :rules="validatePrice"
-            />
-            <ErrorMessage class="error" name="price" />
+            >
+            <div
+              v-if="Validation.price"
+              class="error"
+            >
+              <span>{{ Validation.price }}</span>
+            </div>
           </div>
         </div>
         <div class="card">
           <h1>Category</h1>
           <div class="form-group">
-            <Field
-              as="select"
-              class="full-size"
-              name="category"
+            <select
               id="category"
               v-model="WorkshopData.category"
-              :rules="validateCategory"
+              class="full-size"
+              name="category"
             >
-              <option value="" selected>Select Category</option>
-              <option value="Leadership">Leadership</option>
-              <option value="Personal Skills">Personal Skills</option>
-              <option value="Awareness">Awareness</option>
-              <option value="Well-being">Well-being</option>
-            </Field>
-            <ErrorMessage class="error" name="category"></ErrorMessage>
+              <option
+                value=""
+                selected
+              >
+                Select Category
+              </option>
+              <option value="Leadership">
+                Leadership
+              </option>
+              <option value="Personal Skills">
+                Personal Skills
+              </option>
+              <option value="Awareness">
+                Awareness
+              </option>
+              <option value="Well-being">
+                Well-being
+              </option>
+            </select>
+            <div
+              v-if="Validation.category"
+              class="error"
+            >
+              <span>{{ Validation.category }}</span>
+            </div>
           </div>
         </div>
         <div class="card">
           <h1>Duration</h1>
           <div class="form-group">
             <label for="Workshop-dates"> Workshop Date</label>
-            <div class="inner" id="Workshop-dates">
+            <div
+              id="Workshop-dates"
+              class="inner"
+            >
               <label for="Datefrom">from</label>
-              <Field
-                type="date"
-                name="Datefrom"
+              <input
                 id="Datefrom"
                 v-model="WorkshopData.date.from"
-              />
+                type="date"
+                name="Datefrom"
+              >
 
               <label for="Dateto">to</label>
-              <Field
+              <input
+                id="Dateto"
+                v-model="WorkshopData.date.to"
                 type="date"
                 name="Dateto"
-                id="Dateto"
                 :disabled="WorkshopData.date.from == null"
-                v-model="WorkshopData.date.to"
-              />
+              >
             </div>
-            <ErrorMessage class="error" name="Datefrom"></ErrorMessage>
+            <div
+              v-if="Validation.dates"
+              class="error"
+            >
+              <span>{{ Validation.dates }}</span>
+            </div>
           </div>
           <div class="form-group">
             <label for="Workshop-hours">workshop hours</label>
-            <Field
-              type="number"
-              name="Workshop-hours"
+            <input
               id="Workshop-hours"
               v-model="WorkshopData.hours"
-            />
+              type="number"
+              name="Workshop-hours"
+            >
+          </div>
+          <div
+            v-if="Validation.hours"
+            class="error"
+          >
+            <span>{{ Validation.hours }}</span>
           </div>
         </div>
       </div>
-    </Form>
+    </form>
   </div>
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from "vee-validate";
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import File_Uploader from "./File_Uploader";
-import Session from "./sessionForm.vue";
-import WorkshopServices from "../services/workshop.service";
-import UserService from "../services/user.service";
-import * as yup from "yup";
-import workshopVue from './workshop.vue';
+import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import Session from './sessionForm.vue';
+import UserService from '../services/user.service';
+import FileUploader from './FileUploader.vue';
+import WorkshopServices from '../services/workshop.service';
+import {
+  ValidateCategory, ValidateDates, ValidatePrice, ValidateTitle,
+  ValidateTrainer, ValidateHours,
+} from '../services/Validation';
+
 export default {
-  name: "Workshop form",
-  emits: ["delete-session", "delete-file"],
+  name: 'Workshopform',
   components: {
-    Form,
-    Field,
-    ErrorMessage,
     QuillEditor,
-    "file-uploader": File_Uploader,
     Session,
+    FileUploader,
   },
+  emits: ['delete-session', 'delete-file'],
   data() {
-    const validateTitle = yup.string().max(130).required();
-    const validateCategory = yup.string().required();
-    const validateTrainer = yup.string().required();
-    const validateStatus = yup.string().required();
-    const DateSchema = yup.object({});
     return {
-      /* ==================
-    validation 
-  =================*/
-      validateTitle,
-      validateCategory,
-      validateTrainer,
-      validateStatus,
-      DateSchema,
-
-      /* ==================
-    validation 
-  =================*/
-
-      /*to transform description content from quill editor*/
+      Validation: {
+        title: null,
+        main_trainer: null,
+        price: null,
+        category: null,
+        dates: null,
+        hours: null,
+      },
+      filesList: [
+        {
+          _id: 0,
+          url: '',
+          note: '',
+        },
+      ],
+      SessionsList: [
+        {
+          Arrayid: 0,
+          id: '',
+        },
+      ],
       short_description: {},
       description: {},
-      /*to transform description content from quill editor*/
-      filelist: [],
-      responsible_person: "",
+      responsible_person: '',
 
       WorkshopData: {
-        sessions: [
-          {
-            id: "",
-          },
-        ],
-        files: [
-          {
-            url: "",
-            note: "",
-          },
-        ],
-        title: "",
-        short_description: [],
-        description: [],
-        responsible_person: "",
+        sessions: [],
+        files: [],
+        title: '',
+        short_description: '',
+        description: '',
+        responsible_person: '',
         date: {
           from: null,
           to: null,
         },
-        category: "",
+        category: '',
         hours: null,
         price: null,
-
-        status: "Published",
+        status: 'Published',
       },
     };
   },
-  mounted: function () {
-    UserService.getUsersWithRole("trainer").then((response) => {
+  mounted() {
+    UserService.getUsersWithRole('trainer').then((response) => {
       this.responsible_person = response.data;
     });
   },
   methods: {
-    /*validation methods */
-    validatePrice(value) {
-      if (value < 0) {
-        return "Price should be higher than 0";
-      }
-      if (value > 250) {
-        return "Price should be lower than 250";
-      }
-      if (value === typeof 0) {
-        return "Price is numeric value";
-      }
-      return true;
-    },
-
-    ValidateDates() {
-      var from = this.WorkshopData.date.from;
-      var to = this.WorkshopData.date.to;
-      if (Date.parse(to) <= Date.parse(from)) {
-        return "'From' date should be greater than 'to' date";
-      }
-    },
-
-    /*validation methods */
-
-    setfilelist(el) {
-      this.filelist.push(el);
-    },
     onsubmit() {
-      console.log(this.WorkshopData)
-      WorkshopServices.CreateWorkshop(this.WorkshopData);
-      this.$router.push({name: "WorkshopsList"});
+      this.CallFileUploaders();
+      this.CallSessionForms();
+      this.Validation.title = ValidateTitle(this.WorkshopData.title).error;
+      this.Validation.main_trainer = ValidateTrainer(this.WorkshopData.responsible_person).error;
+      this.Validation.dates = ValidateDates(this.WorkshopData.date.from,
+        this.WorkshopData.date.to).error;
+      this.Validation.category = ValidateCategory(this.WorkshopData.category).error;
+      this.Validation.price = ValidatePrice(this.WorkshopData.price).error;
+      this.Validation.hours = ValidateHours(this.WorkshopData.hours).error;
 
-     
+      if (this.Validation.title === null
+        || this.Validation.dates === null
+        || this.Validation.category === null
+        || this.Validation.price === null
+        || this.Validation.hours === null
+        || this.Validation.main_trainer === null) {
+        WorkshopServices.CreateWorkshop(this.WorkshopData).then((res) => {
+          if (res.data.WorkshopId !== null) {
+            this.$router.push({ name: 'WorkshopsList' });
+          }
+        });
+      }
     },
     setNewVal() {
       this.WorkshopData.description = this.$refs.description.getHTML();
       this.WorkshopData.short_description = this.$refs.short_description.getHTML();
     },
+
+    /*= ===================================
+      File-uploader methods
+      ====================================
+    */
+    SaveFile(uploadedFile) {
+      this.WorkshopData.files.push(uploadedFile);
+    },
     AddFile() {
-      this.WorkshopData.files.push({
-        url: "",
-        note: "",
+      this.filesList.push({
+        id: this.filesList.length,
+        url: '',
+        note: '',
       });
     },
-    DeleteFile(item) {
-      const index = this.WorkshopData.files.indexOf(item);
-      if (index === -1) {
-        return;
+    DeleteFile(id, wasUploaded, uploadedFile) {
+      if (wasUploaded) {
+        WorkshopServices.DeleteFile(uploadedFile);
+        this.filesList = this.filesList.filter((file) => file.id !== id);
+        this.WorkshopData.files = this.WorkshopData.files.filter((file) => file !== uploadedFile);
       }
-      this.WorkshopData.files.splice(index, 1);
+      this.filesList = this.filesList.filter((file) => file.id !== id);
+    },
+
+    CallFileUploaders() {
+      const fileUploaderList = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [fileUploader, value] of Object.entries(this.$refs)) {
+        if (/^file-uploader/.test(fileUploader)) {
+          if (value != null) {
+            fileUploaderList.push({ fileUploader: value });
+          }
+        }
+      }
+      if (fileUploaderList !== []) {
+        if (fileUploaderList.length > 1) {
+          fileUploaderList.forEach((el) => {
+            el.fileUploader.AddFile();
+          });
+        }
+        if (fileUploaderList.length === 1 && fileUploaderList[0].fileUploader.file !== null) {
+          fileUploaderList[0].fileUploader.AddFile();
+        }
+      }
+    },
+    /*= ===================================
+      File-uploader methods
+      ====================================
+    */
+    /*= ===================================
+      Session add,remove,upload methods
+      ====================================
+    */
+    EditSession(SessionId) {
+      this.WorkshopData.sessions = this.WorkshopData.sessions.filter((id) => id !== SessionId);
+      WorkshopServices.DeleteSession(SessionId);
+    },
+    SaveSession(id) {
+      this.WorkshopData.sessions.push(id);
     },
     AddSession() {
-      this.WorkshopData.sessions.push({
-        id: "",
+      this.SessionsList.push({
+        Arrayid: this.SessionsList.length,
       });
     },
-    DeleteSession(id) {
-      this.WorkshopData.sessions.splice(id, 1);
+    RemoveSession(id) {
+      this.SessionsList = this.SessionsList.filter((session) => session.Arrayid !== id);
     },
-  },
+
+    CallSessionForms() {
+      const SessionRefsList = [];
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [session, value] of Object.entries(this.$refs)) {
+        if (/^Session/.test(session)) {
+          SessionRefsList.push({ session: value });
+        }
+      }
+      if (SessionRefsList.length !== []) {
+        SessionRefsList.forEach((i) => {
+          if (i.session.session.title !== '') {
+            i.session.AddSession();
+          }
+        });
+      }
+    },
+  }, /* methods */
 };
 </script>
-<style src="../styles/form.css">
-</style>
-
-
+<style src="../styles/form.css"></style>

@@ -1,13 +1,14 @@
 <template>
   <div class="wrapper">
-    <workshop-form> </workshop-form>
+    <workshop-form />
   </div>
 </template>
 
 <script>
-import WorkshopForm from "../../components/WorkshopForm";
+import WorkshopForm from '../../components/WorkshopForm.vue';
+
 export default {
-  name: "AddCourse",
+  name: 'AddCourse',
   components: {
     WorkshopForm,
   },

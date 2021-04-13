@@ -5,22 +5,38 @@
     </div>
     <!-- search bar -->
     <div class="filtration">
-      <select class="workshop-category" v-model="category">
-        <option value="" selected>Select Category</option>
-        <option value="Leadership">Leadership</option>
-        <option value="Personal Skills">Personal Skills</option>
-        <option value="Awareness">Awareness</option>
-        <option value="Well-being">Well-being</option>
+      <select
+        v-model="category"
+        class="workshop-category"
+      >
+        <option
+          value=""
+          selected
+        >
+          Select Category
+        </option>
+        <option value="Leadership">
+          Leadership
+        </option>
+        <option value="Personal Skills">
+          Personal Skills
+        </option>
+        <option value="Awareness">
+          Awareness
+        </option>
+        <option value="Well-being">
+          Well-being
+        </option>
       </select>
 
       <input
+        v-model="search"
         aria-label="Search"
         class="search-bar"
         type="text"
-        v-model="search"
-        @keyup="FilterItems"
         placeholder="Search..."
-      />
+        @keyup="FilterItems"
+      >
     </div>
     <!-- search bar -->
     <div class="list">
@@ -28,51 +44,50 @@
         v-for="item in filteredList"
         :key="item.key"
         :data="item"
-      ></workshop>
+      />
     </div>
   </div>
 </template>
 
 <script>
-import UserService from "../../services/user.service";
-import workshop from "../../components/workshop";
+import UserService from '../../services/user.service';
+import workshop from '../../components/workshop.vue';
+
 export default {
-  name: "myWorkshops",
+  name: 'MyWorkshops',
   components: {
     workshop,
   },
   data() {
     return {
       coursesList: [],
-      search: "",
-      category: "",
+      search: '',
+      category: '',
     };
   },
-  mounted: function () {
-    UserService.getMyWorkshops().then((response) => {
-      this.coursesList = response.data;
-    });
-  },
   computed: {
-    filteredList: function () {
+    filteredList() {
       if (this.category == null) {
-        return this.coursesList.filter((course) => {
-          return course.title.match(this.search);
-        });
+        return this.coursesList.filter((course) => course.title.match(this.search));
       }
       if (this.category != null) {
-        return this.coursesList.filter((course) => {
-          return (
-            course.title.match(this.search) &&
-            course.category.match(this.category)
-          );
-        });
+        return this.coursesList.filter((course) => (
+          course.title.match(this.search)
+            && course.category.match(this.category)
+        ));
       }
-    },
+      return this.coursesList;
+    }
+    ,
+  },
+  mounted() {
+    UserService.getMyWorkshops().then((response) => {
+      this.coursesList = response.data;
+      console.log(this.coursesList);
+    });
   },
 };
 </script>
-
 
 <style scoped>
 h1 {

@@ -1,48 +1,60 @@
 <template>
   <div class="uploader">
-    <div class="file-uploader" v-if="uploaded != true">
+    <div
+      v-if="uploaded != true"
+      class="file-uploader"
+    >
       <div class="add-btn">
         <input
+          :id="`fileUpload-${id}`"
           ref="uploader"
           type="file"
-          @change="OnChange"
           name="`fileUpload-${id}`"
-          :id="`fileUpload-${id}`"
-        />
+          @change="OnChange"
+        >
         <button
           type="button"
           class="btn-upload"
           @click="$refs.uploader.click()"
         >
-          <i class="fas fa-file-upload"></i>
+          <i class="fas fa-file-upload" />
         </button>
       </div>
       <div class="file-name">
         <span>{{ fileName }}</span>
       </div>
       <div class="note-group">
-        <label id="note" class="note" :for="`${id}`">Note</label>
+        <label
+          id="note"
+          class="note"
+          :for="`${id}`"
+        >Note</label>
         <input
+          :id="`${id}`"
+          v-model="note"
           class="file-note"
           type="text"
           :name="`file-note-${id}`"
-          :id="`${id}`"
-          v-model="note"
-        />
+        >
       </div>
       <div class="btns">
-        <i @click="AddFile" class="fas fa-save"></i>
-        <i @click="onDelete(data)" class="fas fa-trash-alt"></i>
+        <i
+          class="fas fa-save"
+          @click="AddFile"
+        />
+        <i
+          class="fas fa-trash-alt"
+          @click="onDelete"
+        />
       </div>
     </div>
 
     <div
-      class="file-uploader"
-      :class="[uploaded ? 'small' : 'large']"
       v-if="uploaded == true"
+      class="file-uploader"
     >
       <div class="icon">
-        <i class="fas fa-file-upload"></i>
+        <i class="fas fa-file-upload" />
       </div>
       <div class="name">
         {{ fileName }}
@@ -50,57 +62,73 @@
       <div class="note">
         {{ note }}
       </div>
-      <div class="btn">
-        <i @click="onDelete(data)" class="fas fa-times remove"></i>
+      <div class="btns">
+        <i
+          class="fas fa-trash-alt"
+          @click="onDelete"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
+
 export default {
-  props: ["data", "id"],
-  name: "file-uploader",
+  name: 'FileUploader',
+  props: ['id'],
   data() {
     return {
+      uploadedFile: {
+        url: null,
+        type: null,
+        note: '',
+        name: null,
+      },
       response: null,
       file: null,
-      note: "",
-      fileName: "no file chosen",
+      note: '',
+      fileName: 'no file chosen',
       uploaded: false,
     };
   },
   methods: {
-    onDelete(data) {
-      this.$emit("delete-file", data);
+    onDelete() {
+      if (this.uploaded === false) {
+        this.$emit('delete-file', this.id, this.uploaded, this.uploadedFile);
+      } else {
+        this.$emit('delete-file', this.id, this.uploaded, this.uploadedFile);
+      }
     },
     OnChange(event) {
       if (event.target.files != null) {
+        // eslint-disable-next-line prefer-destructuring
         this.file = event.target.files[0];
-         this.fileName = this.file.name;
+        this.fileName = this.file.name;
       }
     },
     AddFile() {
-      if (this.file == null) {
-        this.$refs.uploader.click();
-      }
-
-      if (this.file != null) {
-        const fd = new FormData();
-        fd.append("file", this.file, this.file.name);
-        axios.post("files/", fd).then((res) => {
-          this.response = res;
-          const url =
-            this.response.config.baseURL +
-            this.response.data.destination.substring(2) +
-            this.response.data.filename;
-          this.data.url = url;
-          this.data.note = this.note;
-          this.data.type = this.file.type;
-          this.data.name = this.file.name;
-          this.uploaded = true;
-        });
+      if (this.uploaded === false) {
+        if (this.file == null) {
+          this.$refs.uploader.click();
+        }
+        if (this.file != null) {
+          const fd = new FormData();
+          fd.append('file', this.file, this.file.name);
+          axios.post('files/', fd).then((res) => {
+            this.response = res;
+            const url = this.response.config.baseURL
+            + this.response.data.destination.substring(2)
+            + this.response.data.filename;
+            this.uploadedFile.url = url;
+            this.uploadedFile.note = this.note;
+            this.uploadedFile.type = this.file.type;
+            this.uploadedFile.name = this.file.name;
+            this.uploaded = true;
+            this.$emit('add-file', this.uploadedFile);
+          });
+        }
       }
     },
   },

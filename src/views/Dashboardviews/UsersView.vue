@@ -12,15 +12,28 @@
           <td>action</td>
         </thead>
         <tbody>
-          <tr v-for="item in usersList" :key="item.key">
-            <td><img :src="`${item.photo}`" alt="" class="user-image" /></td>
+          <tr
+            v-for="item in usersList"
+            :key="item.key"
+          >
+            <td>
+              <img
+                :src="`${item.photo}`"
+                alt=""
+                class="user-image"
+              >
+            </td>
             <td>{{ item.firstname }}</td>
             <td>{{ item.lastname }}</td>
             <td>{{ item.role }}</td>
             <td>{{ item.email }}</td>
             <td>
-              <button class="btn btn-primary">edit</button>
-              <button class="btn btn-primary">delete</button>
+              <button class="btn btn-primary">
+                edit
+              </button>
+              <button class="btn btn-primary">
+                delete
+              </button>
             </td>
           </tr>
         </tbody>
@@ -30,29 +43,25 @@
 </template>
 
 <script>
-import UserItem from "../../components/userItem.vue";
-import TokenService from "../../services/Token.service";
-import UserService from "../../services/user.service";
+import UserService from '../../services/user.service';
+
 export default {
-  name: "UsersView",
+  name: 'UsersView',
   components: {
-    "user-item": UserItem,
   },
   data() {
     return {
       usersList: [],
     };
   },
-  methods: {},
-  mounted: function () {
+  mounted() {
     const id = UserService.getId();
 
     UserService.getUsers().then((res) => {
-      this.usersList = res.data.filter((user) => {
-        return user._id !== id;
-      });
+      this.usersList = res.data.filter((user) => user._id !== id);
     });
   },
+  methods: {},
 };
 </script>
 

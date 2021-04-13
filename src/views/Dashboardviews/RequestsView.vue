@@ -1,11 +1,26 @@
 <template>
   <div class="users-view">
     <h1>Users booking requests</h1>
-    <select name="status" id="status" v-model="status">
-      <option selected value="">Show All</option>
-      <option value="pending">Pending</option>
-      <option value="declined">Declined</option>
-      <option value="accepted">Accepted</option>
+    <select
+      id="status"
+      v-model="status"
+      name="status"
+    >
+      <option
+        selected
+        value=""
+      >
+        Show All
+      </option>
+      <option value="pending">
+        Pending
+      </option>
+      <option value="declined">
+        Declined
+      </option>
+      <option value="accepted">
+        Accepted
+      </option>
     </select>
     <div class="list">
       <table>
@@ -16,25 +31,33 @@
 
           <td>request date</td>
           <td>request status</td>
-          <td v-if="status != 'accepted'">action</td>
+          <td v-if="status != 'accepted'">
+            action
+          </td>
         </thead>
         <tbody>
-          <tr v-for="item in filteredList" :key="item.key">
+          <tr
+            v-for="item in filteredList"
+            :key="item.key"
+          >
             <td>{{ item.student.fullName }}</td>
             <td>{{ item.student.email }}</td>
             <td>{{ item.workshop.title }}</td>
             <td>{{ item.info.request_send }}</td>
             <td>{{ item.info.status }}</td>
             <td v-if="item.info.status != 'accepted'">
-              <button class="btn btn-green" @click="update(item, 'accepted')">
-                <i class="fas fa-check"></i>
+              <button
+                class="btn btn-green"
+                @click="update(item, 'accepted')"
+              >
+                <i class="fas fa-check" />
               </button>
               <button
                 v-if="item.info.status != 'declined'"
                 class="btn btn-danger"
                 @click="update(item, 'declined')"
               >
-                <i class="fas fa-trash-alt"></i>
+                <i class="fas fa-trash-alt" />
               </button>
             </td>
           </tr>
@@ -45,17 +68,31 @@
 </template>
 
 <script>
-import BookingServices from "../../services/Booking.service";
+import BookingServices from '../../services/Booking.service';
 
 export default {
-  name: "Requests",
+  name: 'Requests',
   data() {
     return {
-      status: "",
+      status: '',
       requests: null,
       fetchedData: [],
-      filteredList: [],
     };
+  },
+  computed: {
+    filteredList() {
+      if (this.status === '') {
+        return this.fetchedData;
+      }
+      const list = this.fetchedData.filter((el) => el.info.status.match(this.status));
+      if (list === null) {
+        return 'nothing found';
+      }
+      return list;
+    },
+  },
+  created() {
+    this.fetchRequests();
   },
   methods: {
     fetchRequests() {
@@ -68,19 +105,11 @@ export default {
         data: item,
         status: action,
       };
-
-      item.info.status = action;
-      BookingServices.UpdateRequest(update).then((res) => {});
-    },
-  },
-  created() {
-    this.fetchRequests();
-  },
-  computed: {
-    filteredList: function () {
-      return this.fetchedData.filter((el) => {
-        return el.info.status.match(this.status);
-      });
+      const id = this.fetchedData.findIndex((el) => el === item);
+      if (id !== -1) {
+        this.fetchedData[id].info.status = action;
+      }
+      BookingServices.UpdateRequest(update);
     },
   },
 };

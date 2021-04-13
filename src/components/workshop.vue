@@ -5,7 +5,7 @@
       <h3>{{ data.code }}</h3>
     </div>
     <div class="short-description">
-      <div v-html="data.short_description"></div>
+      <div v-html="data.short_description" />
     </div>
     <div class="more">
       <router-link
@@ -13,15 +13,17 @@
         :to="{ name: 'workshopView', params: { id: data._id } }"
         exact
         tag="button"
-        >see more</router-link
       >
+        see more
+      </router-link>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "workshop",
+  name: 'Workshop',
   props: {
+    // eslint-disable-next-line vue/require-default-prop
     data: Object,
   },
 };

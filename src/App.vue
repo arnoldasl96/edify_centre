@@ -2,15 +2,11 @@
   <div class="app">
     <router-view />
   </div>
-  <!-- teleport target -->
-  <div id="modals"></div>
 </template>
 <script>
-import * as VeeValidate from "vee-validate";
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    VeeValidate,
   },
   data() {
     return {

@@ -6,70 +6,87 @@
     >
       <div class="registration-side">
         <div class="logo-reg">
-          <img :src="`${publicPath}Images/edifylogo.png`" alt="logo" />
+          <img
+            :src="`${publicPath}Images/edifylogo.png`"
+            alt="logo"
+          >
         </div>
-        <form @submit.prevent="handleSubmit" @keydown="clearErrors">
+        <form
+          @submit.prevent="handleSubmit"
+          @keydown="clearErrors"
+        >
           <div class="form-control">
             <label for="firstname">firstname</label>
             <input
-              type="text"
-              v-model="userData.firstname"
-              name="firstname"
               id="firstname"
+              v-model="userData.firstname"
+              type="text"
+              name="firstname"
               required
-            />
+            >
           </div>
           <div class="form-control">
             <label for="lastname">lastname</label>
             <input
-              type="text"
-              v-model="userData.lastname"
-              name="lastname"
               id="lastname"
+              v-model="userData.lastname"
+              type="text"
+              name="lastname"
               required
-            />
+            >
           </div>
           <div class="form-control">
             <label for="Email">Email</label>
             <input
-              type="email"
-              v-model="userData.email"
-              name="email"
               id="email"
+              v-model="userData.email"
+              type="email"
+              name="email"
               required
-            />
+            >
           </div>
           <div class="form-control">
             <label for="Password">Password</label>
             <input
-              type="password"
-              v-model="userData.password"
-              name="password"
               id="password"
+              v-model="userData.password"
+              type="password"
+              name="password"
               required
               minlength="6"
-            />
+            >
           </div>
 
           <div class="form-control">
             <label for="Re-password">confirm password</label>
             <input
-              type="password"
-              v-model="userData.confirm_password"
-              name="Re-password"
               id="Re-password"
+              v-model="userData.confirm_password"
+              type="password"
+              name="Re-password"
               required
               minlength="6"
-            />
+            >
           </div>
-          <div v-show="error != ''" class="form-control">
+          <div
+            v-show="error != ''"
+            class="form-control"
+          >
             <span style="color: red">{{ error }}</span>
           </div>
-          <button class="submit" type="submit">Registration</button>
+          <button
+            class="submit"
+            type="submit"
+          >
+            Registration
+          </button>
           <div class="form-control">
-            <router-link class="back-to-login" to="/login"
-              >have an account already? Login</router-link
+            <router-link
+              class="back-to-login"
+              to="/login"
             >
+              have an account already? Login
+            </router-link>
           </div>
         </form>
       </div>
@@ -78,35 +95,35 @@
 </template>
 
 <script>
-import axios from "axios";
-import UserService from "../services/user.service";
+import UserService from '../services/user.service';
+
 export default {
-  name: "Registration",
+  name: 'Registration',
   components: {},
   data() {
     return {
       publicPath: process.env.BASE_URL,
       userData: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-        role: "student",
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: '',
+        confirm_password: '',
+        role: 'student',
       },
-      error: "",
+      error: '',
     };
   },
   methods: {
     clearErrors() {
-      this.error = "";
+      this.error = '';
     },
     async handleSubmit() {
       if (this.userData.password !== this.userData.confirm_password) {
-        this.error = "passwords do not match !";
+        this.error = 'passwords do not match !';
       }
-      const Response = UserService.Register(this.userData).then((res) => {
-        if (res.data.user != null) this.$router.push("/login");
+      UserService.Register(this.userData).then((res) => {
+        if (res.data.user != null) this.$router.push('/login');
       });
     },
   },

@@ -1,15 +1,16 @@
-
 <template>
-  <div class="div">this is footer</div>
+  <div class="div">
+    this is footer
+  </div>
 </template>
- 
- <script>
+
+<script>
 export default {
-  name: "Footer",
+  name: 'Footer',
   componenets: {},
 };
 </script>
- 
+
  <style>
 footer {
   background-color: aquamarine;

@@ -7,25 +7,41 @@
     <div class="filtration">
       <!-- <div class="left">
         <input type="text" v-model="search" @keyup="FilterItems">
-    
+
       </div>
        -->
-      <select class="workshop-category" v-model="category">
-        <option value="" selected>Select Category</option>
-        <option value="Leadership">Leadership</option>
-        <option value="Personal Skills">Personal Skills</option>
-        <option value="Awareness">Awareness</option>
-        <option value="Well-being">Well-being</option>
+      <select
+        v-model="category"
+        class="workshop-category"
+      >
+        <option
+          value=""
+          selected
+        >
+          Select Category
+        </option>
+        <option value="Leadership">
+          Leadership
+        </option>
+        <option value="Personal Skills">
+          Personal Skills
+        </option>
+        <option value="Awareness">
+          Awareness
+        </option>
+        <option value="Well-being">
+          Well-being
+        </option>
       </select>
 
       <input
+        v-model="search"
         aria-label="Search"
         class="search-bar"
         type="text"
-        v-model="search"
-        @keyup="FilterItems"
         placeholder="Search..."
-      />
+        @keyup="FilterItems"
+      >
 
       <router-link
         v-if="isAdmin"
@@ -33,7 +49,7 @@
         tag="button"
         :to="{ name: 'AddWorkshop' }"
       >
-        <i class="fas fa-plus"></i> Workshop
+        <i class="fas fa-plus" /> Workshop
       </router-link>
     </div>
     <!-- search bar -->
@@ -42,17 +58,18 @@
         v-for="item in filteredList"
         :key="item.key"
         :data="item"
-      ></workshop>
+      />
     </div>
   </div>
 </template>
 
 <script>
-import workshop from "../../components/workshop";
-import UserService from "../../services/user.service";
-import WorkshopServices from "../../services/workshop.service";
+import workshop from '../../components/workshop.vue';
+import UserService from '../../services/user.service';
+import WorkshopServices from '../../services/workshop.service';
+
 export default {
-  name: "WorkshopsView",
+  name: 'WorkshopsView',
   components: {
     workshop,
   },
@@ -60,34 +77,31 @@ export default {
     return {
       isAdmin: false,
       coursesList: [],
-      search: "",
-      category: "",
+      search: '',
+      category: '',
     };
   },
-  mounted: function () {
-    if (UserService.getRole() == "admin") {
+  computed: {
+    filteredList() {
+      if (this.category == null) {
+        return this.coursesList.filter((course) => course.title.match(this.search));
+      }
+      if (this.category != null) {
+        return this.coursesList.filter((course) => (
+          course.title.match(this.search)
+            && course.category.match(this.category)
+        ));
+      }
+      return this.coursesList;
+    },
+  },
+  mounted() {
+    if (UserService.getRole() === 'admin') {
       this.isAdmin = true;
     }
     WorkshopServices.getAllWorkshops().then((response) => {
       this.coursesList = response.data;
     });
-  },
-  computed: {
-    filteredList: function () {
-      if (this.category == null) {
-        return this.coursesList.filter((course) => {
-          return course.title.match(this.search);
-        });
-      }
-      if (this.category != null) {
-        return this.coursesList.filter((course) => {
-          return (
-            course.title.match(this.search) &&
-            course.category.match(this.category)
-          );
-        });
-      }
-    },
   },
 };
 </script>

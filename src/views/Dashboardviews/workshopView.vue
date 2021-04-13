@@ -1,35 +1,64 @@
 <template>
   <div class="workshop-page">
-    <div v-if="showAll" class="workshop-view">
-      <h1 id="title">{{ workshopdata.title }}</h1>
+    <div
+      v-if="showAll"
+      class="workshop-view"
+    >
+      <h1 id="title">
+        {{ workshopdata.title }}
+      </h1>
       <div class="general-information">
         <h1>General information</h1>
-        <div class="description" v-html="workshopdata.description"></div>
-        <div class="files" :key="file.id" v-for="file in workshopdata.files">
+        <div
+          class="description"
+          v-html="workshopdata.description"
+        />
+        <div
+          v-for="file in workshopdata.files"
+          :key="file.id"
+          class="files"
+        >
           <div class="file-item">
             <span
               class="fiv-viv fiv-size-md"
               :class="getIconCode(file.type)"
-            ></span>
-            <a class="file-link" :href="`${file.url}`">
+            />
+            <a
+              class="file-link"
+              :href="`${file.url}`"
+            >
               <span v-if="file.note == ''">{{ file.url }}</span>
               <span v-if="file.note != ''">{{ file.note }}</span>
             </a>
           </div>
         </div>
       </div>
-      <div class="sessions-list" v-for="i in sessions" :key="i._id">
+      <div
+        v-for="i in sessions"
+        :key="i"
+        class="sessions-list"
+      >
         <div class="general-information">
           <h1>{{ i.title }}</h1>
 
-          <div class="description" v-html="i.description"></div>
-          <div class="files" :key="file.id" v-for="file in i.files">
+          <div
+            class="description"
+            v-html="i.description"
+          />
+          <div
+            v-for="file in i.files"
+            :key="file.id"
+            class="files"
+          >
             <div class="file-item">
               <span
                 class="fiv-viv fiv-size-md"
                 :class="getIconCode(file.type)"
-              ></span>
-              <a class="file-link" :href="`${file.url}`">
+              />
+              <a
+                class="file-link"
+                :href="`${file.url}`"
+              >
                 <span v-if="file.note == ''">{{ file.url }}</span>
                 <span v-if="file.note != ''">{{ file.note }}</span>
               </a>
@@ -38,47 +67,66 @@
         </div>
       </div>
     </div>
-    <div v-if="!showAll" class="workshop-view">
-      <h1 id="title">{{ workshopdata.title }}</h1>
+    <div
+      v-if="!showAll"
+      class="workshop-view"
+    >
+      <h1 id="title">
+        {{ workshopdata.title }}
+      </h1>
       <div class="general-information">
         <h1>{{ workshopdata.title }}</h1>
         <div class="main-info">
           <div
             class="description"
             v-html="workshopdata.short_description"
-          ></div>
-          <span>Price: {{ workshopdata.Price }}</span
-          ><br />
+          />
+          <span>Price: {{ workshopdata.Price }}</span><br>
           <span>time period: {{ Dates.from + " " + Dates.to }}</span>
         </div>
         <div class="buttons">
-          <button class="btn btn-primary" @click="Booking">
+          <button
+            class="btn btn-primary"
+            @click="Booking"
+          >
             Register to workshop
           </button>
         </div>
       </div>
-      <modal :type="`white`" @close="showBooking = false" v-show="showBooking">
-        <template v-slot:header>
+      <modal
+        v-show="showBooking"
+        :type="`white`"
+        @close="showBooking = false"
+      >
+        <template #header>
           <h1>Booking to {{ workshopdata.title }} workshop</h1>
         </template>
-        <template v-slot:body>
+        <template #body>
           <span> Are you sure you want to book this workshop?</span>
         </template>
-        <template v-slot:footer>
+        <template #footer>
           <div class="buttons">
-            <button class="btn btn-add" @click="BookWorkshop">Yes!</button>
-            <button class="btn btn-danger" @click="showBooking = false">
+            <button
+              class="btn btn-add"
+              @click="BookWorkshop"
+            >
+              Yes!
+            </button>
+            <button
+              class="btn btn-danger"
+              @click="showBooking = false"
+            >
               No ,cancel the booking!
             </button>
           </div>
         </template>
       </modal>
       <modal
-        @close="successMessage = false"
-        :type="type"
         v-show="successMessage"
+        :type="type"
+        @close="successMessage = false"
       >
-        <template v-slot:body>
+        <template #body>
           <span>{{ message }}</span>
         </template>
       </modal>
@@ -87,92 +135,93 @@
 </template>
 
 <script>
-import WorkshopServices from "../../services/workshop.service";
-import file_icon_validator from "../../services/file-icon-validator";
-import UserService from "../../services/user.service";
-import Modal from "../../components/EditModal.vue";
+import WorkshopServices from '../../services/workshop.service';
+import file_icon_validator from '../../services/file-icon-validator';
+import UserService from '../../services/user.service';
+import Modal from '../../components/EditModal.vue';
 import BookingServices from '../../services/Booking.service';
 
 export default {
-  name: "workshopView",
-  props: ["id"],
+  name: 'WorkshopView',
   components: {
     Modal,
   },
+  props: ['id'],
   data() {
     return {
-      type: "",
-      message: "",
+      type: '',
+      message: '',
       successMessage: false,
       showBooking: false,
       canEdit: false,
       showAll: false,
       loading: true,
       workshopdata: {},
-      type: "",
       sessions: {},
       responsible_person: [],
       Dates: {
-        from: "",
-        to: "",
+        from: '',
+        to: '',
       },
       students_list: [],
     };
   },
+  created() {
+    this.getworkshop();
+  },
   methods: {
     BookWorkshop() {
       BookingServices.BookWorkshop(this.workshopdata._id).then((res) => {
-        if (res.data.message == "succesfully booked!") {
-          this.type = "success";
+        if (res.data.message === 'succesfully booked!') {
+          this.type = 'success';
         } else {
-          this.type = "danger";
+          this.type = 'danger';
         }
         this.message = res.data.message;
         this.showBooking = false;
         this.successMessage = true;
-        setTimeout(() => this.$router.push({ name: "WorkshopsList" }), 2000);
+        setTimeout(() => this.$router.push({ name: 'WorkshopsList' }), 1500);
       });
     },
     Booking() {
       this.showBooking = true;
     },
     AuthUser() {
-      if (UserService.getRole() == "admin") {
+      if (UserService.getRole() === 'admin') {
         this.showAll = true;
         this.canEdit = true;
       }
-      if (UserService.getRole() == "trainer") {
+      if (UserService.getRole() === 'trainer') {
         this.workshopdata.responsible_person.forEach((element) => {
-          if (element == UserService.getId()) {
+          if (element === UserService.getId()) {
             this.showAll = true;
             this.canEdit = true;
           }
         });
       }
-      if (UserService.getRole() == "student") {
-        this.workshopdata.students_list.forEach((element) => {
-          if (element == UserService.getId()) {
-            this.showAll = true;
-          }
-        });
+      if (UserService.getRole() === 'student') {
+        if (this.workshopdata.students_list.length !== 0) {
+          this.workshopdata.students_list.forEach((element) => {
+            if (element === UserService.getId()) {
+              this.showAll = true;
+            }
+          });
+        }
       }
     },
     getIconCode(code) {
       return file_icon_validator.getIconCode(code);
     },
     getworkshop() {
-      WorkshopServices.getWorkshopInfo(this.$route.params.id).then((res)=>{
+      WorkshopServices.getWorkshopInfo(this.$route.params.id).then((res) => {
         this.workshopdata = res.data.workshop;
         this.students_list = res.data.students_list;
-        this.responsible_person= res.data.responsible_person;
-        this.sessions = res.data.sessions
-        this.AuthUser();
+        this.responsible_person = res.data.responsible_person;
+        this.sessions = res.data.sessions;
         this.loading = false;
-      })
+        this.AuthUser();
+      });
     },
-  },
-  created: function () {
-    this.getworkshop();
   },
 };
 </script>

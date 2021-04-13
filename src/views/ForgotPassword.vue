@@ -6,10 +6,16 @@
     >
       <div class="form-wrapper">
         <div class="logo-reg">
-          <img :src="`${publicPath}Images/edifylogo.png`" alt="logo" />
+          <img
+            :src="`${publicPath}Images/edifylogo.png`"
+            alt="logo"
+          >
         </div>
         <h1>Reset your password</h1>
-        <div v-if="sent == false" class="reset">
+        <div
+          v-if="sent == false"
+          class="reset"
+        >
           <span>
             Enter your user account's verified email address and we will send
             you a password reset link.
@@ -18,18 +24,26 @@
             <div class="form-control">
               <label for="Email">Email</label>
               <input
-                type="email"
-                v-model="email"
-                name="email"
                 id="email"
+                v-model="email"
+                type="email"
+                name="email"
                 placeholder="type you email here"
                 required
-              />
+              >
             </div>
-            <button class="submit" type="submit">send link</button>
+            <button
+              class="submit"
+              type="submit"
+            >
+              send link
+            </button>
           </form>
         </div>
-        <div v-if="sent" class="message">
+        <div
+          v-if="sent"
+          class="message"
+        >
           Check your email inbox link should be there.
         </div>
       </div>
@@ -39,12 +53,12 @@
 
 <script>
 export default {
-  name: "ForgotPassword",
+  name: 'ForgotPassword',
   components: {},
   data() {
     return {
       publicPath: process.env.BASE_URL,
-      email: "",
+      email: '',
       sent: false,
     };
   },

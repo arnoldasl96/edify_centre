@@ -1,7 +1,10 @@
 <template>
   <transition name="modal-fade">
     <div class="main-modal">
-      <div @click="close" class="modal-backdrop"></div>
+      <div
+        class="modal-backdrop"
+        @click="close"
+      />
 
       <div
         :class="`${type}`"
@@ -10,15 +13,23 @@
         aria-labelledby="modalTitle"
         aria-describedby="modalDescription"
       >
-        <header class="modal-header" id="modalTitle">
-          <slot name="header"></slot>
+        <header
+          id="modalTitle"
+          class="modal-header"
+        >
+          <slot name="header" />
         </header>
 
-        <section class="modal-body" id="modalDescription">
-          <slot name="body"></slot>
+        <section
+          id="modalDescription"
+          class="modal-body"
+        >
+          <slot name="body" />
         </section>
 
-        <footer class="modal-footer"><slot name="footer"> </slot></footer>
+        <footer class="modal-footer">
+          <slot name="footer" />
+        </footer>
       </div>
     </div>
   </transition>
@@ -26,14 +37,15 @@
 
 <script>
 export default {
-  props: ["type"],
-  name: "modal",
+  name: 'Modal',
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['type'],
+  mounted() {},
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
-  mounted: function () {},
 };
 </script>
 
