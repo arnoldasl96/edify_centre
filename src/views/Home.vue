@@ -1,12 +1,17 @@
 <template>
-  <div class="homepage" />
+  <div class="homepage">
+    <workshopsettings />
+  </div>
 </template>
 
 <script>
+import Workshopsettings from '../components/workshopsettings.vue';
 
 export default {
   name: 'Home',
   components: {
+    Workshopsettings,
+
   },
   data() {
     return {
@@ -32,7 +37,8 @@ export default {
 };
 </script>
 
-<style scoped src="../styles/form.css">
+<style scoped>
+@import "../styles/variables.css";
 .homepage{
   display: flex;
   justify-content: center;

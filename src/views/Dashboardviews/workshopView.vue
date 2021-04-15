@@ -4,6 +4,13 @@
       v-if="showAll"
       class="workshop-view"
     >
+      <button
+        v-if="isAdmin"
+        class="btn btn-green floting"
+        @click="showSettingsModal"
+      >
+        change settings
+      </button>
       <h1 id="title">
         {{ workshopdata.title }}
       </h1>
@@ -33,12 +40,22 @@
           </div>
         </div>
       </div>
-      <div
-        v-for="i in sessions"
-        :key="i"
-        class="sessions-list"
-      >
-        <div class="general-information">
+      <div class="addSession">
+        <button
+          v-if="isAdmin"
+          class="btn btn-green left"
+          @click="showSessionModal"
+        >
+          <i class="fas fa-plus" /> Session
+        </button>
+      </div>
+
+      <div class="sessions-list">
+        <div
+          v-for="i in sessions"
+          :key="i"
+          class="general-information"
+        >
           <h1>{{ i.title }}</h1>
 
           <div
@@ -59,7 +76,7 @@
                 class="file-link"
                 :href="`${file.url}`"
               >
-                <span v-if="file.note == ''">{{ file.url }}</span>
+                <span v-if="file.note == ''">{{ file.name }}</span>
                 <span v-if="file.note != ''">{{ file.note }}</span>
               </a>
             </div>
@@ -131,6 +148,25 @@
         </template>
       </modal>
     </div>
+    <body-modal
+      v-if="canEdit && sessionModal"
+      @close="hideSessionModal"
+    >
+      <template #body>
+        <session-form @save-session-id="AddSession" />
+      </template>
+    </body-modal>
+    <body-modal
+      v-if="isAdmin && settingsModal"
+      @close="hideSettingsModal"
+    >
+      <template #body>
+        <workshopsettings
+          :info="workshopdata"
+          @close="hideSettingsModal"
+        />
+      </template>
+    </body-modal>
   </div>
 </template>
 
@@ -140,20 +176,29 @@ import file_icon_validator from '../../services/file-icon-validator';
 import UserService from '../../services/user.service';
 import Modal from '../../components/EditModal.vue';
 import BookingServices from '../../services/Booking.service';
+import SessionForm from '../../components/sessionForm.vue';
+import BodyModal from '../../components/BodyModal.vue';
+import Workshopsettings from '../../components/workshopsettings.vue';
 
 export default {
   name: 'WorkshopView',
   components: {
     Modal,
+    SessionForm,
+    BodyModal,
+    Workshopsettings,
   },
   props: ['id'],
   data() {
     return {
       type: '',
       message: '',
+      settingsModal: false,
+      sessionModal: false,
       successMessage: false,
       showBooking: false,
       canEdit: false,
+      isAdmin: false,
       showAll: false,
       loading: true,
       workshopdata: {},
@@ -190,6 +235,7 @@ export default {
       if (UserService.getRole() === 'admin') {
         this.showAll = true;
         this.canEdit = true;
+        this.isAdmin = true;
       }
       if (UserService.getRole() === 'trainer') {
         this.workshopdata.responsible_person.forEach((element) => {
@@ -222,6 +268,29 @@ export default {
         this.AuthUser();
       });
     },
+    showSessionModal() {
+      this.sessionModal = true;
+      document.getElementById('app').classList.add('not-scroll');
+    },
+    hideSessionModal() {
+      this.sessionModal = false;
+      document.getElementById('app').classList.remove('not-scroll');
+    },
+    showSettingsModal() {
+      this.settingsModal = true;
+      document.getElementById('app').classList.add('not-scroll');
+    },
+    hideSettingsModal() {
+      this.settingsModal = false;
+      document.getElementById('app').classList.remove('not-scroll');
+    },
+    AddSession(id) {
+      WorkshopServices.AddSession(this.workshopdata._id, id).then((res) => {
+        if (res.status === 204 || res.status === 200) {
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
+    },
   },
 };
 </script>
@@ -237,6 +306,12 @@ export default {
 }
 #title {
   text-align: center;
+  text-transform: uppercase;
+}
+.addSession {
+  width: 100%;
+  text-align: left;
+  margin-left: 5%;
 }
 .general-information {
   margin: 2em;
@@ -273,5 +348,10 @@ export default {
 }
 .sessions-list {
   width: 100%;
+}
+.floting {
+  position: absolute;
+  top: 100px;
+  right: 100px;
 }
 </style>

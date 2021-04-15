@@ -40,8 +40,8 @@ const UserService = {
   deleteUser(id) {
     return axios.delete(`${userLink}${id}`);
   },
-  updateUser(id) {
-    return axios.patch(`${userLink}${id}`);
+  updateUser(id, data) {
+    return axios.patch(`${userLink}${id}`, data);
   },
   Register(userdata) {
     return axios.post('user/registration/', userdata);

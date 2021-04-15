@@ -16,6 +16,26 @@ export default {
 };
 </script>
 <style>
+.not-scroll{
+  overflow:hidden;
+}
+.flex-row{
+  display: flex;
+  justify-content: space-between;
+}
+.input-primary {
+   border: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #f2f2f2;
+  padding: 12px;
+  border-radius: 3px;
+  width: 100%;
+  outline: none;
+  font-size: 14px;
+}
 .btn-margin-sm {
   margin: 5px;
 }

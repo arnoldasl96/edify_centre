@@ -1,28 +1,36 @@
 <template>
   <div class="users-view">
     <h1>Users booking requests</h1>
-    <select
-      id="status"
-      v-model="status"
-      name="status"
-    >
-      <option
-        selected
-        value=""
+    <div class="center">
+      <select
+        id="status"
+        v-model="status"
+        name="status"
       >
-        Show All
-      </option>
-      <option value="pending">
-        Pending
-      </option>
-      <option value="declined">
-        Declined
-      </option>
-      <option value="accepted">
-        Accepted
-      </option>
-    </select>
-    <div class="list">
+        <option
+          value=""
+        >
+          Show All
+        </option>
+        <option
+          selected
+          value="pending"
+        >
+          Pending
+        </option>
+        <option value="declined">
+          Declined
+        </option>
+        <option value="accepted">
+          Accepted
+        </option>
+      </select>
+    </div>
+
+    <div
+      v-if="filteredList"
+      class="list"
+    >
       <table>
         <thead>
           <td>Student</td>
@@ -64,6 +72,14 @@
         </tbody>
       </table>
     </div>
+    <div
+      v-if="!filteredList"
+      class="list "
+    >
+      <div class="not-found">
+        <span>no requests found with status '{{ status }}'</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -85,8 +101,8 @@ export default {
         return this.fetchedData;
       }
       const list = this.fetchedData.filter((el) => el.info.status.match(this.status));
-      if (list === null) {
-        return 'nothing found';
+      if (list.length === 0) {
+        return null;
       }
       return list;
     },
@@ -117,7 +133,28 @@ export default {
 
 <style scoped>
 @import "../../styles/variables.css";
+.not-found{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow);
+  font-weight: 600;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  height: 80px;
+  width: 80%;
 
+}
+.center {
+  display: flex;
+  justify-content: center;
+  height: 3rem;
+}
+.users-view > h1 {
+  text-align: center;
+}
 thead {
   font-weight: bold;
   text-transform: capitalize;
@@ -135,5 +172,10 @@ th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+}
+.list{
+      width: 100%;
+    display: grid;
+    justify-items: center;
 }
 </style>

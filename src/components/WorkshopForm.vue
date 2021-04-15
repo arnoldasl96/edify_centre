@@ -153,7 +153,6 @@
                 Completed
               </option>
             </select>
-            <!-- <ErrorMessage class="error" name="status" /> -->
           </div>
         </div>
         <div class="card">

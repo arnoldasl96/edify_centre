@@ -15,7 +15,8 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'vue/require-prop-types': 'off',
     'vue/no-v-html': 'off',
-    'guard-for-in':'off'
+    'guard-for-in':'off',
+    'linebreak-style': 'off'
   },
 
   extends: [

@@ -96,17 +96,15 @@
           Add file
         </button>
         <div class="list-of-files">
-          <keep-alive>
-            <file-uploader
-              v-for="f in filesList"
-              :id="f.id"
-              :key="f.id"
-              :ref="`file-uploader-${f.id}`"
-              :data="f"
-              @delete-file="DeleteFile"
-              @add-file="SaveFile"
-            />
-          </keep-alive>
+          <file-uploader
+            v-for="f in filesList"
+            :id="f.id"
+            :key="f.id"
+            :ref="`file-uploader-${f.id}`"
+            :data="f"
+            @delete-file="DeleteFile"
+            @add-file="SaveFile"
+          />
         </div>
       </div>
       <hr class="solid">
@@ -200,8 +198,10 @@ export default {
         this.Validation.title = ValidationTitle.error;
         if (DateValidation.valid) {
           if (ValidationTitle.valid) {
+            console.log(this.session.files);
             axios.post('/session/', this.session).then((res) => {
               this.session._id = res.data.SessionId;
+              console.log(res.data.SessionId);
               this.$emit('save-session-id', res.data.SessionId);
               this.added = true;
             });
@@ -308,6 +308,8 @@ export default {
   height: fit-content;
   padding-bottom: 30px;
   margin: 25px;
+  border-radius: 4px;
+  color: white;
 }
 .flex-row {
   display: flex;

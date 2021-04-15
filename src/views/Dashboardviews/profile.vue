@@ -6,19 +6,32 @@
     >
       <div class="grid-container">
         <div class="photo-container">
+          <input
+            id="photo"
+            ref="photoUploader"
+            type="file"
+            name="photo"
+            accept="image/*"
+          >
           <img :src="`${userInfo.photo}`">
           <h1 class="role orange">
             { {{ userInfo.role }} }
           </h1>
-          <buttton
+          <button
+            class="btn btn-green center"
+            @click="$refs.photoUploader.click()"
+          >
+            change photo
+          </button>
+          <button
             class="btn btn-primary center"
-            @click="showChangePassword"
+            @click="showChangePassword = true"
           >
             change password
-          </buttton>
+          </button>
           <button
             class="btn btn-add center"
-            @click="editmode = false"
+            @click="UpdateUserInfo()"
           >
             save information
           </button>
@@ -29,7 +42,9 @@
           </h1>
           <input
             v-model="userInfo.firstname"
+            class="input-primary"
             type="text"
+            pattern="[A-Za-z]"
           >
         </div>
         <div class="surname">
@@ -38,6 +53,7 @@
           </h1>
           <input
             v-model="userInfo.lastname"
+            class="input-primary"
             type="text"
           >
         </div>
@@ -45,11 +61,30 @@
           <h1 class="orange title">
             Date of Birth
           </h1>
+          <input
+            v-model="userInfo.birthday"
+            class="input-primary"
+            max="2005"
+            type="date"
+          >
         </div>
         <div class="sex">
           <h1 class="orange title">
             Sex
           </h1>
+          <select
+            v-model="userInfo.gender"
+          >
+            <option value="man">
+              Man
+            </option>
+            <option value="Woman">
+              Woman
+            </option>
+            <option value="Other">
+              other
+            </option>
+          </select>
         </div>
         <div class="email">
           <h1 class="orange title">
@@ -61,6 +96,11 @@
           <h1 class="orange title">
             Phone Number
           </h1>
+          <input
+            v-model="userInfo.phone"
+            class="input-primary"
+            type="tel"
+          >
         </div>
         <div
           v-if="userInfo.role === 'trainer' || userInfo.role === 'admin'"
@@ -76,8 +116,9 @@
               scrolling-container="true"
               theme="snow"
               toolbar="minimal"
-              :content="userInfo.biography"
+              @v-model:content="biography"
               @update:content="setBiography"
+              @ready="setContent"
             />
           </div>
         </div>
@@ -146,10 +187,14 @@
           <h1 class="orange title">
             Biography
           </h1>
-          <span v-if="userInfo.biography">{{ userInfo.biography }}</span>
-          <span v-if="!userInfo.biography">biography coming soon
-
-          </span>
+          <div
+            v-if="userInfo.biography"
+            class="content-biography"
+            v-html="userInfo.biography"
+          />
+          <div v-if="!userInfo.biography">
+            biography coming soon
+          </div>
         </div>
       </div>
     </div>
@@ -167,7 +212,10 @@ export default {
   },
   data() {
     return {
+      biography: '',
       userInfo: {
+        birthday: '',
+        phone: '',
         photo: '',
         firstname: '',
         lastname: '',
@@ -176,22 +224,47 @@ export default {
         biography: '',
       },
       editmode: false,
+      showChangePassword: false,
     };
   },
   created() {
     this.getUserInformation();
-    this.biography = this.userInfo.biography;
   },
   methods: {
     getUserInformation() {
       const id = UserService.getId();
       UserService.getUserbyId(id).then((res) => {
         this.userInfo = res.data;
-        console.log(this.userInfo);
+        this.biography = this.userInfo.biography;
+        this.userInfo.birthday = this.FormatDate(res.data.birthday);
       });
     },
     setBiography() {
       this.userInfo.biography = this.$refs.biography.getHTML();
+    },
+    setContent() {
+      this.$refs.biography.setHTML(this.biography);
+    },
+    FormatDate(varDate) {
+      const date_ob = new Date(varDate);
+      // adjust 0 before single digit date
+      const date = (`0${date_ob.getDate()}`).slice(-2);
+      // current month
+      const month = (`0${date_ob.getMonth() + 1}`).slice(-2);
+
+      // current year
+      const year = date_ob.getFullYear();
+      return `${year}-${month}-${date}`;
+    },
+
+    UpdateUserInfo() {
+      const id = UserService.getId();
+      this.userInfo.birthday = this.FormatDate(this.userInfo.birthday);
+      UserService.updateUser(id, this.userInfo).then((res) => {
+        if (res.status === 204 || res.status === 200) {
+          this.$router.go(this.$router.currentRoute);
+        }
+      });
     },
   },
 };
@@ -270,6 +343,7 @@ img {
   width: 95%;
   border-radius: 35px;
 }
+.content-biography,
 .edit-mode-off > div >div >span{
   color: white;
   font-size: 22px;

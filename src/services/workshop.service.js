@@ -29,17 +29,14 @@ const WorkshopServices = {
   EditSession(id, data) {
     return axios.patch(`${SessionsLink}${id}/`, data);
   },
-  getAuthor(id) {
-    return axios.get(`${workshoplink}${id}/author`);
-  },
-  getStudents(id) {
-    return axios.get(`${workshoplink}${id}/students`);
-  },
   getWorkshopInfo(id) {
     return axios.get(`${workshoplink}${id}/info`);
   },
   DeleteFile(file) {
     return axios.put('files/', file);
+  },
+  AddSession(id, sessionId) {
+    return axios.patch(`${workshoplink}${id}/sessions`, { sessionId });
   },
 };
 

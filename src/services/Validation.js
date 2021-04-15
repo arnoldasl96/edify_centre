@@ -38,7 +38,7 @@ const ValidateDates = (starts, ends) => {
   const now = Date.now();
   const from = new Date(starts);
   const to = new Date(ends);
-  if (from === null && to === null) {
+  if (starts === null && ends === null) {
     return { valid: true, error: null };
   }
   if (from.getTime() > to.getTime()) {
