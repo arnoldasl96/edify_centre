@@ -77,7 +77,7 @@ import axios from 'axios';
 
 export default {
   name: 'FileUploader',
-  props: ['id'],
+  props: ['id', 'storedFile'],
   data() {
     return {
       uploadedFile: {
@@ -93,7 +93,27 @@ export default {
       uploaded: false,
     };
   },
+  created() {
+    this.GetStoredFile();
+  },
   methods: {
+    GetStoredFile() {
+      if (this.storedFile !== undefined) {
+        if (this.storedFile.url !== '') {
+          this.uploaded = true;
+          this.uploadedFile.url = this.storedFile.url;
+        }
+        if (this.storedFile.type !== '') this.uploadedFile.type = this.storedFile.type;
+        if (this.storedFile.name !== '') {
+          this.uploadedFile.name = this.storedFile.name;
+          this.fileName = this.storedFile.name;
+        }
+        if (this.storedFile.note !== '') {
+          this.note = this.storedFile.note;
+          this.uploadedFile.note = this.storedFile.note;
+        }
+      }
+    },
     onDelete() {
       if (this.uploaded === false) {
         this.$emit('delete-file', this.id, this.uploaded, this.uploadedFile);
@@ -125,6 +145,7 @@ export default {
             this.uploadedFile.note = this.note;
             this.uploadedFile.type = this.file.type;
             this.uploadedFile.name = this.file.name;
+            this.uploadedFile.id = this.id;
             this.uploaded = true;
             this.$emit('add-file', this.uploadedFile);
           });

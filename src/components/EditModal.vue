@@ -7,7 +7,6 @@
       />
 
       <div
-        :class="`${type}`"
         class="modal"
         role="dialog"
         aria-labelledby="modalTitle"
@@ -15,19 +14,19 @@
       >
         <header
           id="modalTitle"
-          class="modal-header"
+          class="modal-header white"
         >
           <slot name="header" />
         </header>
 
         <section
           id="modalDescription"
-          class="modal-body"
+          class="modal-body white"
         >
           <slot name="body" />
         </section>
 
-        <footer class="modal-footer">
+        <footer class="modal-footer white">
           <slot name="footer" />
         </footer>
       </div>
@@ -38,8 +37,6 @@
 <script>
 export default {
   name: 'Modal',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['type'],
   mounted() {},
   methods: {
     close() {

@@ -110,7 +110,6 @@ import UserService from '../services/user.service';
 
 export default {
   name: 'Login',
-  components: {},
   data() {
     return {
       publicPath: process.env.BASE_URL,

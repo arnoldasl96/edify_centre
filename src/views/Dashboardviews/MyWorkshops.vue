@@ -83,7 +83,6 @@ export default {
   mounted() {
     UserService.getMyWorkshops().then((response) => {
       this.coursesList = response.data;
-      console.log(this.coursesList);
     });
   },
 };

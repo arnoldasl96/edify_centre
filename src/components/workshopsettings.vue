@@ -146,6 +146,8 @@
 
 <script>
 import UserService from '../services/user.service';
+import WorkshopServices from '../services/workshop.service';
+import Validation from '../services/Validation';
 
 export default {
   name: 'WorkshopSettings',
@@ -159,9 +161,8 @@ export default {
   created() {
     this.getTrainers();
     this.workshop = this.info;
-    this.workshop.date.from = this.FormatDate(this.workshop.date.from);
-    this.workshop.date.to = this.FormatDate(this.workshop.date.to);
-    console.log(this.info);
+    this.workshop.date.from = Validation.FormatDate(this.workshop.date.from);
+    this.workshop.date.to = Validation.FormatDate(this.workshop.date.to);
   },
   methods: {
     getTrainers() {
@@ -169,18 +170,9 @@ export default {
         this.responsible_person = res.data;
       });
     },
-    FormatDate(varDate) {
-      const date_ob = new Date(varDate);
-      // adjust 0 before single digit date
-      const date = (`0${date_ob.getDate()}`).slice(-2);
-      // current month
-      const month = (`0${date_ob.getMonth() + 1}`).slice(-2);
-
-      // current year
-      const year = date_ob.getFullYear();
-      return `${year}-${month}-${date}`;
+    SaveSettings() {
+      WorkshopServices.UpdateInformation(this.workshop._id, this.workshop);
     },
-
   },
 };
 </script>

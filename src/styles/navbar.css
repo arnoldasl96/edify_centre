@@ -79,8 +79,8 @@
     width: 50%;
 }
 
-@media (max-width: 600px) {
-    .nav-list {
+@media (max-width: 1000px) {
+    .nav-container {
         display: none;
     }
 }

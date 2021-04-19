@@ -2,6 +2,7 @@
   <div>
     <Navbar />
     <div
+      id="dashboard"
       class="dashboard"
       @scroll="handleScroll"
     >

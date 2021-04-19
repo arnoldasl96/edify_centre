@@ -8,19 +8,16 @@
 .side-bar {
     background-color: var(--secondary-color);
     color: var(--light-color);
-    height: 100vh;
+    width: 120px;
+    transition: ease 600ms;
+    z-index: 999;
+    box-shadow: var(--shadow);
 }
-
-.sticky {
-    top: 0;
-    position: fixed;
-    background-color: var(--secondary-color);
-    color: var(--light-color);
-    transition: ease 400ms;
-}
-
 .container {
     height: 100vh;
+    position:sticky;
+    top:0;
+    left: 0;
 }
 
 .arrow {
@@ -120,7 +117,7 @@ a span {
     display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .logout {
         display: block;
     }

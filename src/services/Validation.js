@@ -38,7 +38,7 @@ const ValidateDates = (starts, ends) => {
   const now = Date.now();
   const from = new Date(starts);
   const to = new Date(ends);
-  if (starts === null && ends === null) {
+  if (starts === '' && ends === '') {
     return { valid: true, error: null };
   }
   if (from.getTime() > to.getTime()) {
@@ -56,7 +56,34 @@ const ValidateHours = (Hours) => {
   }
   return { valid: true, error: null };
 };
+const FormatDate = (varDate) => {
+  const date_ob = new Date(varDate);
+  // adjust 0 before single digit date
+  const date = (`0${date_ob.getDate()}`).slice(-2);
+  // current month
+  const month = (`0${date_ob.getMonth() + 1}`).slice(-2);
+
+  // current year
+  const year = date_ob.getFullYear();
+  return `${year}-${month}-${date}`;
+};
+const FormatDateHours = (varDate) => {
+  const date_ob = new Date(varDate);
+  // adjust 0 before single digit date
+  const date = (`0${date_ob.getDate()}`).slice(-2);
+  // current month
+  const month = (`0${date_ob.getMonth() + 1}`).slice(-2);
+
+  // current year
+  const year = date_ob.getFullYear();
+  const hours = date_ob.getHours();
+  const minutes = date_ob.getMinutes();
+  return `${year}-${month}-${date}T${hours}:${minutes}`;
+};
+
 module.exports.ValidateTitle = ValidateTitle;
+module.exports.FormatDate = FormatDate;
+module.exports.FormatDateHours = FormatDateHours;
 module.exports.ValidateTrainer = ValidateTrainer;
 module.exports.ValidatePrice = ValidatePrice;
 module.exports.ValidateCategory = ValidateCategory;

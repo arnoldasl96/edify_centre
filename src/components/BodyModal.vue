@@ -3,7 +3,6 @@
     <div class="main-modal ">
       <div class="modal-backdrop">
         <div
-          :class="`${type}`"
           class="modal white"
           role="dialog"
         >

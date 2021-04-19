@@ -11,12 +11,10 @@
     </div>
 
     <div class="nav-list">
-      <!-- <router-link class="nav-link" to="/help">Help</router-link>
-      <router-link class="nav-link" to="/questions">FAQ </router-link> -->
       <router-link
         v-if="Loggedin"
         class="nav-link wider"
-        to="/dashboard/profile"
+        :to="`/profile`"
       >
         <img
           :src="`${image}`"

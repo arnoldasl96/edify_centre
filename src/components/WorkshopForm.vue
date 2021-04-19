@@ -13,6 +13,7 @@
           <input
             id="Title"
             v-model="WorkshopData.title"
+            class="input-primary"
             type="text"
             name="Title"
             placeholder="workshop title"
@@ -222,6 +223,7 @@
               <input
                 id="Datefrom"
                 v-model="WorkshopData.date.from"
+                class="input-primary"
                 type="date"
                 name="Datefrom"
               >
@@ -230,6 +232,8 @@
               <input
                 id="Dateto"
                 v-model="WorkshopData.date.to"
+
+                class="input-primary"
                 type="date"
                 name="Dateto"
                 :disabled="WorkshopData.date.from == null"
@@ -331,6 +335,9 @@ export default {
   mounted() {
     UserService.getUsersWithRole('trainer').then((response) => {
       this.responsible_person = response.data;
+
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     });
   },
   methods: {
@@ -346,11 +353,12 @@ export default {
       this.Validation.hours = ValidateHours(this.WorkshopData.hours).error;
 
       if (this.Validation.title === null
-        || this.Validation.dates === null
-        || this.Validation.category === null
-        || this.Validation.price === null
-        || this.Validation.hours === null
-        || this.Validation.main_trainer === null) {
+        && this.Validation.dates === null
+        && this.Validation.category === null
+        && this.Validation.price === null
+        && this.Validation.hours === null
+        && this.Validation.main_trainer === null) {
+        console.log(this.Validation);
         WorkshopServices.CreateWorkshop(this.WorkshopData).then((res) => {
           if (res.data.WorkshopId !== null) {
             this.$router.push({ name: 'WorkshopsList' });

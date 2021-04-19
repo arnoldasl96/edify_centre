@@ -204,6 +204,7 @@
 <script>
 import { QuillEditor } from '@vueup/vue-quill';
 import UserService from '../../services/user.service';
+import Validation from '../../services/Validation';
 
 export default {
   name: 'Profile',
@@ -236,7 +237,7 @@ export default {
       UserService.getUserbyId(id).then((res) => {
         this.userInfo = res.data;
         this.biography = this.userInfo.biography;
-        this.userInfo.birthday = this.FormatDate(res.data.birthday);
+        this.userInfo.birthday = Validation.FormatDate(res.data.birthday);
       });
     },
     setBiography() {
@@ -259,7 +260,7 @@ export default {
 
     UpdateUserInfo() {
       const id = UserService.getId();
-      this.userInfo.birthday = this.FormatDate(this.userInfo.birthday);
+      this.userInfo.birthday = Validation.FormatDate(this.userInfo.birthday);
       UserService.updateUser(id, this.userInfo).then((res) => {
         if (res.status === 204 || res.status === 200) {
           this.$router.go(this.$router.currentRoute);

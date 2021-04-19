@@ -38,6 +38,9 @@ const WorkshopServices = {
   AddSession(id, sessionId) {
     return axios.patch(`${workshoplink}${id}/sessions`, { sessionId });
   },
+  UpdateSessionList(id, sessionId) {
+    return axios.patch(`${workshoplink}/${id}/session/${sessionId}`);
+  },
 };
 
 export default WorkshopServices;

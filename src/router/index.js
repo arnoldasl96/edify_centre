@@ -15,7 +15,7 @@ import RequestsView from '../views/Dashboardviews/RequestsView.vue';
 import AddWorkshop from '../views/Dashboardviews/AddWorkshop.vue';
 
 const routes = [{
-  path: '/',
+  path: '/testing',
   name: 'Home',
   component: Home,
 
@@ -39,7 +39,7 @@ const routes = [{
 
 },
 {
-  path: '/dashboard',
+  path: '/',
   name: 'Dashboard',
   component: Dashboard,
   meta: {
@@ -52,12 +52,12 @@ const routes = [{
 
   },
   {
-    path: '/dashboard/workshop/addWorkshop',
+    path: '/workshop/addWorkshop',
     name: 'AddWorkshop',
     component: AddWorkshop,
   },
   {
-    path: '/dashboard/workshop/:id',
+    path: '/workshop/:id',
     name: 'workshopView',
     component: workshopView,
   },

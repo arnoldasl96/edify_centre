@@ -1,11 +1,10 @@
 <template>
   <div
+    id="side-bar"
     class="side-bar"
-    :class="[sticky ? [collapse ? 'small' : 'large'] : '']"
   >
     <div
       class="container"
-      :class="[sticky ? 'sticky' : '']"
     >
       <input
         id="collapse-sidebar"
@@ -54,9 +53,17 @@ export default {
     return {
       el: [],
       role: '',
-      sticky: false,
       collapse: true,
     };
+  },
+  watch: {
+    collapse() {
+      if (this.collapse === true) {
+        document.getElementById('side-bar').style.width = '120px';
+      } else {
+        document.getElementById('side-bar').style.width = '330px';
+      }
+    },
   },
   created() {
     const sidebarElements = elements;
@@ -82,13 +89,7 @@ export default {
       this.$router.push('/login');
     },
     updatePos() {
-      if (window.scrollY < 100) {
-        this.sticky = false;
-      }
-      if (window.scrollY > 100) {
-        this.sticky = true;
-        this.collapse = true;
-      }
+      this.collapse = true;
     },
   },
 };

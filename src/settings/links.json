@@ -3,14 +3,14 @@
             "id": 1,
             "icon": "fas fa-user",
             "name": "My profile",
-            "link": "/dashboard/profile",
+            "link": "/profile",
             "role": ["any"]
         },
         {
             "id": 2,
             "icon": "fas fa-book",
             "name": "All Workshops",
-            "link": "/dashboard/workshop",
+            "link": "/workshop",
             "role": ["any"]
 
         },
@@ -18,7 +18,7 @@
             "id": 3,
             "icon": "fas fa-users",
             "name": "All users",
-            "link": "/dashboard/users",
+            "link": "/users",
             "role": ["admin"]
 
         },
@@ -27,7 +27,7 @@
             "id": 4,
             "icon": "fas fa-book-open",
             "name": "My workshops",
-            "link": "/dashboard/myworkshops",
+            "link": "/myworkshops",
             "role": ["student", "trainer"]
 
         },
@@ -35,7 +35,7 @@
             "id": 5,
             "icon": "fas fa-user-graduate",
             "name": "My trainers",
-            "link": "/dashboard/trainers/:userid",
+            "link": "/trainers/:userid",
             "role": ["student"]
 
         },
@@ -43,7 +43,7 @@
             "id": 6,
             "icon": "fas fa-bell",
             "name": "Requests",
-            "link": "/dashboard/requests",
+            "link": "/requests",
             "role": ["admin"]
 
         }

@@ -1,16 +1,16 @@
 <template>
   <div class="homepage">
-    <workshopsettings />
+    <register-user />
   </div>
 </template>
 
 <script>
-import Workshopsettings from '../components/workshopsettings.vue';
+import RegisterUser from '../components/RegisterUser.vue';
 
 export default {
   name: 'Home',
   components: {
-    Workshopsettings,
+    RegisterUser,
 
   },
   data() {

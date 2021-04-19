@@ -18,6 +18,7 @@
         <input
           id="title"
           v-model="session.title"
+          class="input-primary"
           type="text"
           name="title"
         >
@@ -37,8 +38,9 @@
           theme="snow"
           scrolling-container="false"
           toolbar="full"
-          :content="session_description"
+          @v-model:content="session_description"
           @update:content="OnChange"
+          @ready="setContent"
         />
       </div>
 
@@ -63,6 +65,7 @@
           <input
             id="session-date-starts"
             v-model="session.attendance_date.starts"
+            class="input-primary"
             type="datetime-local"
             name="session-date-starts"
           >
@@ -74,7 +77,9 @@
           <label for="session-date-ends"> Session ends</label>
           <input
             id="session-date-ends"
+
             v-model="session.attendance_date.ends"
+            class="input-primary"
             type="datetime-local"
             name="session-date-ends"
           >
@@ -101,6 +106,7 @@
             :id="f.id"
             :key="f.id"
             :ref="`file-uploader-${f.id}`"
+            :stored-file="f"
             :data="f"
             @delete-file="DeleteFile"
             @add-file="SaveFile"
@@ -139,6 +145,7 @@
 
 <script>
 import { QuillEditor } from '@vueup/vue-quill';
+import moment from 'moment';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from 'axios';
 import FileUploader from './FileUploader.vue';
@@ -152,7 +159,7 @@ export default {
     FileUploader,
   },
   // eslint-disable-next-line vue/require-prop-types
-  props: ['details', 'id'],
+  props: ['details', 'id', 'info'],
   data() {
     return {
       Validation: {
@@ -182,13 +189,40 @@ export default {
       session_description: '',
     };
   },
+  created() {
+    if (this.info !== undefined) this.GetDetails();
+  },
   methods: {
+    setContent() {
+      this.$refs.description.setHTML(this.session_description);
+    },
+    GetDetails() {
+      this.session = this.info;
+      if (this.session.attendance_date.ComingSoon === false) {
+        this.session.attendance_date.starts = moment(this.session.attendance_date.starts)
+          .format('YYYY-MM-DDTHH:mm');
+        this.session.attendance_date.ends = moment(this.session.attendance_date.ends)
+          .format('YYYY-MM-DDTHH:mm');
+        this.filesList = [];
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < this.info.files.length; i++) {
+          const element = this.info.files[i];
+          element.id = i;
+          this.filesList.push(element);
+        }
+        this.session_description = this.session.description;
+      }
+    },
     EditSession() {
       this.added = false;
       this.$emit('edit-session', this.session._id);
     },
     AddSession() {
       if (!this.added) {
+        if (this.session.attendance_date.starts === ''
+        && this.session.attendance_date.ends === '') {
+          this.session.attendance_date.ComingSoon = true;
+        }
         const DateValidation = ValidateDates(
           this.session.attendance_date.starts,
           this.session.attendance_date.ends,
@@ -196,15 +230,21 @@ export default {
         const ValidationTitle = ValidateTitle(this.session.title);
         this.Validation.dates = DateValidation.error;
         this.Validation.title = ValidationTitle.error;
-        if (DateValidation.valid) {
+        if (DateValidation.valid || this.session.attendance_date.ComingSoon === true) {
           if (ValidationTitle.valid) {
-            console.log(this.session.files);
-            axios.post('/session/', this.session).then((res) => {
-              this.session._id = res.data.SessionId;
-              console.log(res.data.SessionId);
-              this.$emit('save-session-id', res.data.SessionId);
-              this.added = true;
-            });
+            if (this.info !== undefined) {
+              WorkshopServices.EditSession(this.session._id, this.session).then((res) => {
+                if (res.status === 204 || res.status === 200) {
+                  this.$router.go(this.$router.currentRoute);
+                }
+              });
+            } else {
+              axios.post('/session/', this.session).then((res) => {
+                this.session._id = res.data.SessionId;
+                this.$emit('save-session-id', res.data.SessionId);
+                this.added = true;
+              });
+            }
           }
         }
       }
@@ -233,8 +273,9 @@ export default {
     DeleteFile(id, wasUploaded, uploadedFile) {
       if (wasUploaded) {
         WorkshopServices.DeleteFile(uploadedFile);
+
         this.filesList = this.filesList.filter((file) => file.id !== id);
-        this.WorkshopData.files = this.WorkshopData.files.filter((file) => file !== uploadedFile);
+        this.session.files = this.session.files.filter((file) => file.id !== id);
       }
       this.filesList = this.filesList.filter((file) => file.id !== id);
     },
