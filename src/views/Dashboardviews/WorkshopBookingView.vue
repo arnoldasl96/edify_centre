@@ -67,7 +67,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../styles/variables.css";
 .users-view > h1 {
   text-align: center;
 }
@@ -81,7 +80,7 @@ thead {
   text-transform: capitalize;
 }
 table {
-  color: white;
+  color: var(--light-color);
   background-color: var(--secondary-color);
   font-family: arial, sans-serif;
   border-collapse: collapse;

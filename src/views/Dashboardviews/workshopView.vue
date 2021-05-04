@@ -1,5 +1,8 @@
 <template>
-  <div class="workshop-page">
+  <div
+    v-if="!loading"
+    class="workshop-page"
+  >
     <div
       v-if="isAdmin"
       class="toggle-register"
@@ -211,8 +214,8 @@
                 class="starts"
               >
                 <h2>
-                  {{ momentParser(i.attendance_date.starts).format("MMM Do YY") }} -
-                  {{ momentParser(i.attendance_date.ends).format("MMM Do YY") }}
+                  {{ momentParser(i.attendance_date.starts).format("MMM Do YY, HH:MM") }} -
+                  {{ momentParser(i.attendance_date.ends).format("HH:MM") }}
                 </h2>
               </div>
             </div>
@@ -342,10 +345,21 @@
       </template>
     </body-modal>
   </div>
+  <div
+    v-if="loading"
+    class="loader"
+  >
+    <ring-loader
+      :loading="loading"
+      :color="color"
+      :size="size"
+    />
+  </div>
 </template>
 
 <script>
 import { QuillEditor } from '@vueup/vue-quill';
+import RingLoader from 'vue-spinner/src/RingLoader.vue';
 import moment from 'moment';
 import WorkshopServices from '../../services/workshop.service';
 import file_icon_validator from '../../services/file-icon-validator';
@@ -367,10 +381,13 @@ export default {
     BodyModal,
     Workshopsettings,
     fileUploader,
+    RingLoader,
   },
   props: ['id'],
   data() {
     return {
+      color: '#EC7404',
+      size: '100px',
       EnableEdit: false,
       momentParser: moment,
       sessioninformation: null,
@@ -502,9 +519,9 @@ export default {
         this.workshopdata = res.data.workshop;
         this.Dates.from = FormatDate(this.workshopdata.date.from);
         this.Dates.to = FormatDate(this.workshopdata.date.to);
-        this.students_list = res.data.students_list;
-        this.responsible_person = res.data.responsible_person;
-        this.sessions = res.data.sessions;
+        this.students_list = res.data.workshop.students_list;
+        this.responsible_person = res.data.workshop.responsible_person;
+        this.sessions = res.data.workshop.sessions;
         this.loading = false;
         this.AuthUser();
       });
@@ -542,7 +559,7 @@ export default {
 </script>
 
 <style scoped>
-@import "../../styles/variables.css";
+
 .price {
   font-size: 3rem;
   float: right;
@@ -550,14 +567,14 @@ export default {
 }
 .edit {
     cursor: pointer;
-    color: #00ff00;
+    color: var( --secondary-color-light);
     float: right;
     font-size: 20px;
     margin: 5px;
 }
 .delete {
     cursor: pointer;
-    color: red;
+    color: var(--primary-color-1);
     float: right;
     font-size: 20px;
     margin: 5px;
@@ -568,13 +585,20 @@ export default {
   justify-content: center;
 }
 .main-info {
-  color: white;
+  color: var(--light-color);
+}
+.loader {
+  width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 #title {
   font-weight: bold;
   font-size: 3rem;
   font-family: "Open Sans";
-  color: var(--primary-color-1);
+  color: var(--primary-color);
   text-align: center;
   text-transform: uppercase;
 }
@@ -587,8 +611,9 @@ export default {
   margin: 2em;
   padding: 1.5em;
   background-color: var(--secondary-color);
-  width: 95%;
+  box-shadow: var(--shadow-1);
   border-radius: 15px;
+  width: 95%;
 }
 .general-information > h1 {
   color: var(--primary-color);
@@ -598,7 +623,7 @@ export default {
   justify-items: center;
 }
 .description {
-  color: white;
+  color: var(--light-color);
   background-color: transparent;
   margin-top: 3em;
   margin-left: 1em;
@@ -608,11 +633,11 @@ export default {
     height: 300px;
 }
 .file-item {
-  color: white;
+  color: var(--light-color);
   margin: 1em;
 }
 .file-link {
-  color: white;
+  color: var(--light-color);
   text-decoration: none;
 }
 .file-link:hover {
@@ -657,7 +682,7 @@ export default {
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: var(--light-color);
   -webkit-transition: .4s;
   transition: .4s;
 }

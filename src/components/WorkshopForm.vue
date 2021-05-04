@@ -52,7 +52,7 @@
           />
         </div>
         <hr class="solid">
-        <div class="files-group">
+        <div class="form-group">
           <button
             type="button"
             class="btn btn-primary"
@@ -73,13 +73,13 @@
           </div>
         </div>
         <hr class="solid">
-        <div class="form-group-lg">
+        <div class="form-group">
           <button
             type="button"
             class="btn btn-primary"
             @click="AddSession"
           >
-            <i class="fas fa-plus" />session
+            <i class="fas fa-plus" /> session
           </button>
           <div class="list-of-files">
             <session
@@ -358,7 +358,6 @@ export default {
         && this.Validation.price === null
         && this.Validation.hours === null
         && this.Validation.main_trainer === null) {
-        console.log(this.Validation);
         WorkshopServices.CreateWorkshop(this.WorkshopData).then((res) => {
           if (res.data.WorkshopId !== null) {
             this.$router.push({ name: 'WorkshopsList' });

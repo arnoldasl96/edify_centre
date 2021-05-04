@@ -8,11 +8,7 @@ const WorkshopServices = {
     return axios.get(`${workshoplink}`);
   },
   CreateWorkshop(data) {
-    return axios.post(`${workshoplink}`, data, {
-      onUploadProgress: (uploadEvent) => {
-        console.log(`UploadProgress: ${uploadEvent.total}`);
-      },
-    });
+    return axios.post(`${workshoplink}`, data);
   },
   UpdateInformation(id, data) {
     return axios.patch(`${workshoplink}${id}`, data);

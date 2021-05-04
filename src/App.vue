@@ -14,6 +14,24 @@ export default {
 };
 </script>
 <style>
+@import "./styles/variables.css";
+@import "./styles/animations.css";
+.page-title {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+.custom-select {
+  height: 40px;
+  width: 100%;
+  border-radius: 3px;
+  float: left;
+  border: none;
+  background-color: #f2f2f2;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
 .not-scroll{
   overflow:hidden;
 }
@@ -22,6 +40,7 @@ export default {
   justify-content: space-between;
 }
 .input-primary {
+  height: 40px;
    border: none;
   -webkit-appearance: none;
   -ms-appearance: none;
@@ -34,30 +53,21 @@ export default {
   outline: none;
   font-size: 14px;
 }
-.btn-margin-sm {
-  margin: 5px;
-}
-.btn-margin-md {
-  margin: 10px;
-}
-.btn-margin-lg {
-  margin: 15px;
-}
-.btn-margin-xl {
-  margin: 20px;
-}
 .btn {
+  box-shadow: var(--shadow);
   cursor: pointer;
   font-size: 16px;
   border: none;
   border-radius: 10px;
-  color: white;
+  color: var(--light-color);
   padding: 8px 16px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  text-transform: capitalize;
   font-size: 16px;
   margin: 8px;
+  min-width: 100px;
 }
 .btn-primary {
   background-color: var(--primary-color);
@@ -65,15 +75,15 @@ export default {
 }
 
 .btn-add {
-  background-color: rgba(50, 117, 224, 0.863);
+  background-color:  var(--secondary-color);
   transition: ease 100ms;
 }
 .btn-danger {
-  background-color: rgba(221, 14, 14, 0.897);
+  background-color: var(--secondary-color-light);
   transition: ease 100ms;
 }
 .btn-green {
-  background-color: rgba(108, 241, 55, 0.753);
+  background-color: var(--primary-color-2);
   transition: ease 100ms;
 }
 .btn-primary:hover,
@@ -84,7 +94,7 @@ export default {
   transition: ease 100ms;
 }
 .btn-add:hover {
-  background-color: rgba(50, 117, 224, 1);
+  background-color: var(--secondary-color-1);
   transition: ease 100ms;
 }
 .btn-danger:hover {
@@ -129,7 +139,7 @@ html {
 .user-image {
   border-radius: 50%;
   height: 50px;
-  widows: 50px;
+  width: 50px;
 }
 .text-sm {
   font-size: small;

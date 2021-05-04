@@ -12,6 +12,7 @@
             type="file"
             name="photo"
             accept="image/*"
+            @change="OnChange"
           >
           <img :src="`${userInfo.photo}`">
           <h1 class="role orange">
@@ -74,6 +75,7 @@
           </h1>
           <select
             v-model="userInfo.gender"
+            class="custom-select"
           >
             <option value="man">
               Man
@@ -203,6 +205,7 @@
 
 <script>
 import { QuillEditor } from '@vueup/vue-quill';
+import axios from 'axios';
 import UserService from '../../services/user.service';
 import Validation from '../../services/Validation';
 
@@ -213,6 +216,7 @@ export default {
   },
   data() {
     return {
+      photo: null,
       biography: '',
       userInfo: {
         birthday: '',
@@ -257,22 +261,44 @@ export default {
       const year = date_ob.getFullYear();
       return `${year}-${month}-${date}`;
     },
-
+    OnChange(event) {
+      if (event.target.files != null) {
+        // eslint-disable-next-line prefer-destructuring
+        this.photo = event.target.files[0];
+      }
+    },
     UpdateUserInfo() {
       const id = UserService.getId();
-      this.userInfo.birthday = Validation.FormatDate(this.userInfo.birthday);
-      UserService.updateUser(id, this.userInfo).then((res) => {
-        if (res.status === 204 || res.status === 200) {
-          this.$router.go(this.$router.currentRoute);
-        }
-      });
+      if (this.photo != null) {
+        const fd = new FormData();
+        fd.append('file', this.photo, this.photo.name);
+        axios.post('files/', fd).then((res) => {
+          this.response = res;
+          const url = this.response.config.baseURL
+            + this.response.data.destination.substring(2)
+            + this.response.data.filename;
+          this.userInfo.photo = url;
+          this.userInfo.birthday = Validation.FormatDate(this.userInfo.birthday);
+          UserService.updateUser(id, this.userInfo).then((res1) => {
+            if (res1.status === 204 || res1.status === 200) {
+              this.$router.go(this.$router.currentRoute);
+            }
+          });
+        });
+      } else {
+        this.userInfo.birthday = Validation.FormatDate(this.userInfo.birthday);
+        UserService.updateUser(id, this.userInfo).then((res1) => {
+          if (res1.status === 204 || res1.status === 200) {
+            this.$router.go(this.$router.currentRoute);
+          }
+        });
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-@import "../../styles/variables.css";
 img {
   height: 300px;
   width: 300px;
@@ -346,7 +372,7 @@ img {
 }
 .content-biography,
 .edit-mode-off > div >div >span{
-  color: white;
+  color: var(--light-color);
   font-size: 22px;
 }
 .wrapper {
@@ -358,7 +384,7 @@ img {
   flex-direction: column;
 }
 .upper-container {
-  background-color: white;
+  background-color: var(--light-color);
   width: 100%;
   height: 45vh;
   display: flex;

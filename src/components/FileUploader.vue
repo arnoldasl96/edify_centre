@@ -38,14 +38,18 @@
         >
       </div>
       <div class="btns">
-        <i
-          class="fas fa-save"
+        <button
+          class="btn btn-add"
           @click="AddFile"
-        />
-        <i
-          class="fas fa-trash-alt"
+        >
+          Save File
+        </button>
+        <button
+          class="btn btn-danger"
           @click="onDelete"
-        />
+        >
+          Delete
+        </button>
       </div>
     </div>
 
@@ -157,42 +161,22 @@ export default {
 </script>
 
 <style scoped>
-@import "../styles/variables.css";
-.error {
-  display: block;
-  color: blue;
-}
 .btns {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: row;
+  display: block;
+  width:98%;
+  margin-left: 1em;
+  justify-content: center;
+  flex-direction: column;
 }
-.btns i {
-  cursor: pointer;
-  font-size: 30px;
-  margin: 5px;
-  transition: 150ms ease-out;
-}
-.btns i:hover {
-  font-size: 35px;
-  transition: 150ms ease-out;
-}
-.fa-save {
-  color: blue;
-}
-.fa-trash-alt {
-  color: red;
-}
-.small {
-  height: 3em;
-}
-.large {
-  height: 100px;
+.btns button {
+  float: right;
+  width: 50%;
 }
 .uploader {
   height: fit-content;
   width: 100%;
   display: flex;
+  padding: 10px;
   justify-content: center;
   align-content: center;
 }
@@ -201,17 +185,17 @@ export default {
   margin: 10px 0px;
   padding: 1em;
   display: grid;
-  grid-template-columns: 5% 30% 45% 20%;
+  grid-template-columns: 5% 20% 55% 20%;
   align-items: center;
   border-radius: 5px;
-  width: 95%;
+  width: 100%;
   background-color: var(--secondary-color-light);
 }
 .btn-upload {
   border: none;
   cursor: pointer;
   background-color: transparent;
-  color: white;
+  color: var(--light-color);
   font-size: 2em;
   transition: ease 200ms;
 }
@@ -232,6 +216,17 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+.file-name {
+  height: 80%;
+  display: flex;
+  justify-content: left;
+  align-items: inherit;
+  margin-top: 15px;
+  padding-left: 5px;
+}
+.fa-trash-alt {
+  color: var(--danger);
 }
 .delete {
   color: var(--danger);

@@ -1,48 +1,6 @@
 <template>
   <div>
-    <div class="title">
-      <h1>All workshops</h1>
-    </div>
-    <!-- search bar -->
-    <div class="filtration">
-      <!-- <div class="left">
-        <input type="text" v-model="search" @keyup="FilterItems">
-
-      </div>
-       -->
-      <select
-        v-model="category"
-        class="workshop-category"
-      >
-        <option
-          value=""
-          selected
-        >
-          Select Category
-        </option>
-        <option value="Leadership">
-          Leadership
-        </option>
-        <option value="Personal Skills">
-          Personal Skills
-        </option>
-        <option value="Awareness">
-          Awareness
-        </option>
-        <option value="Well-being">
-          Well-being
-        </option>
-      </select>
-
-      <input
-        v-model="search"
-        aria-label="Search"
-        class="search-bar"
-        type="text"
-        placeholder="Search..."
-        @keyup="FilterItems"
-      >
-
+    <div class="add-workshop">
       <router-link
         v-if="isAdmin"
         class="right btn btn-primary"
@@ -52,26 +10,80 @@
         <i class="fas fa-plus" /> Workshop
       </router-link>
     </div>
+    <div class="page-title">
+      <h1>All workshops</h1>
+    </div>
     <!-- search bar -->
     <div class="list">
-      <workshop
-        v-for="item in filteredList"
-        :key="item.key"
-        :data="item"
+      <div class="filtration">
+        <div class="select-category">
+          <select
+            id="custom-select"
+            v-model="category"
+            class="custom-select"
+          >
+            <option
+              value=""
+            >
+              Select Category
+            </option>
+            <option value="Leadership">
+              Leadership
+            </option>
+            <option value="Personal Skills">
+              Personal Skills
+            </option>
+            <option value="Awareness">
+              Awareness
+            </option>
+            <option value="Well-being">
+              Well-being
+            </option>
+          </select>
+        </div>
+        <div class="search">
+          <input
+            v-model="search"
+            aria-label="Search"
+            class="input-primary"
+            type="text"
+            placeholder="Search..."
+            @keyup="FilterItems"
+          >
+        </div>
+      </div>
+    </div>
+    <!-- search bar -->
+    <div
+      v-if="!loading"
+      class="list"
+    >
+      <workshops-list
+        :filtered-list="filteredList"
       />
+    </div>
+    <div
+      v-else
+      class="list-loading"
+    >
+      <workshop-loading />
+      <workshop-loading />
+      <workshop-loading />
     </div>
   </div>
 </template>
 
 <script>
-import workshop from '../../components/workshop.vue';
+import workshopLoading from '@/components/LoadingSkelets/workshopLoading.vue';
 import UserService from '../../services/user.service';
 import WorkshopServices from '../../services/workshop.service';
+import WorkshopList from './workshopsList.vue';
 
 export default {
   name: 'WorkshopsView',
   components: {
-    workshop,
+    'workshops-list': WorkshopList,
+    workshopLoading,
   },
   data() {
     return {
@@ -79,6 +91,7 @@ export default {
       coursesList: [],
       search: '',
       category: '',
+      loading: true,
     };
   },
   computed: {
@@ -101,6 +114,7 @@ export default {
     }
     WorkshopServices.getAllWorkshops().then((response) => {
       this.coursesList = response.data;
+      this.loading = false;
     });
   },
 };
@@ -110,36 +124,47 @@ export default {
 h1 {
   text-align: center;
 }
+.search {
+  width: 34%;
+}
+.search input {
+  box-shadow: var(--shadow);
+}
+.select-category {
+  width: 30%;
+}
 .list {
   margin-top: 20px;
   width: 100%;
   display: grid;
   justify-items: center;
+  opacity: 1;
+  animation: fadein 500ms linear forwards;
+}
+.list-loading {
+  margin-top: 20px;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  opacity: 1;
 }
 .filtration {
-  display: block;
-  text-align: center;
-}
-.search-bar {
-  height: 35px;
-  font-size: 20px;
-  width: 50%;
-  border-radius: 20px;
-  margin: 0px auto;
-  text-align: left;
-}
-.search-bar:focus {
-  outline: none;
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: space-between;
 }
 .right {
   float: right;
   margin-right: 35px;
 }
-.workshop-category {
-  margin-left: 15px;
-  width: 15%;
-  border-radius: 19px;
-  float: left;
-  cursor: pointer;
+.add-workshop {
+  position: fixed;
+  right: 5px;
+  bottom:50px;
+  z-index: 2;
+}
+.add-workshop a {
+  margin: 0;
 }
 </style>

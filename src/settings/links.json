@@ -32,14 +32,6 @@
 
         },
         {
-            "id": 5,
-            "icon": "fas fa-user-graduate",
-            "name": "My trainers",
-            "link": "/trainers/:userid",
-            "role": ["student"]
-
-        },
-        {
             "id": 6,
             "icon": "fas fa-bell",
             "name": "Requests",

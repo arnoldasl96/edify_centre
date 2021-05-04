@@ -1,4 +1,6 @@
 import axios from 'axios';
+import TokenService from './services/Token.service';
 
-axios.defaults.baseURL = 'http://localhost:4000/';
-axios.defaults.headers.common.authorization = `Bearer ${localStorage.getItem.accessToken}`;
+axios.defaults.baseURL = 'http://localhost:4000/api';
+const accessToken = TokenService.getToken();
+axios.defaults.headers.common.authorization = `Bearer ${accessToken}`;

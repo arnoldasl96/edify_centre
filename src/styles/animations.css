@@ -1,0 +1,53 @@
+@keyframes pulse
+{
+  0%{
+    background-color: rgba(165,165,165,.1);
+  }
+  50%{
+    background-color: rgba(165,165,165,.3);
+  }
+  100%{
+    background-color: rgba(165,165,165,.1);
+  }
+}
+
+@-webkit-keyframes pulse
+{
+  0%{
+    background-color: rgba(165,165,165,.1);
+  }
+  50%{
+    background-color: rgba(165,165,165,.3);
+  }
+  100%{
+    background-color: rgba(165,165,165,.1);
+  }
+}
+@keyframes wave{
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+@-webkit-keyframes wave{
+    100%{
+        transform: translateX(100%);
+    }
+}
+@keyframes fadein{
+  0% {
+    opacity: 0;
+  }
+  100%{
+      opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadein{
+  0% {
+    opacity: 0;
+  }
+  100%{
+      opacity: 1;
+  }
+}

@@ -6,9 +6,8 @@ const bookingLink = 'booking';
 const BookingServices = {
   BookWorkshop(id) {
     const data = {
-      workshopId: id,
-      userId: UserService.getId(),
-      status: 'pending',
+      workshop: id,
+      user: UserService.getId(),
     };
     return axios.post(`${bookingLink}/request`, data);
   },

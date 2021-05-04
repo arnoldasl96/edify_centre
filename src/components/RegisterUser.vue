@@ -91,6 +91,9 @@
 <script>
 export default {
   name: 'RegisterUser',
+  components: {
+
+  },
   data() {
     return {
       userData: {
@@ -109,8 +112,6 @@ export default {
 </script>
 
 <style>
-@import "../styles/variables.css";
-
 .homepage{
   display: flex;
   justify-content: center;
@@ -121,7 +122,7 @@ export default {
 
 .register-user{
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--light-color);
   min-width: 300px;
   height: 500px;
   border-radius: 5px;

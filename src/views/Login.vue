@@ -134,6 +134,7 @@ export default {
         if (Response.data.message === 'success') {
           TokenService.setAccessToken(Response.data.accessToken);
           TokenService.setRefreshToken(Response.data.refreshToken);
+          axios.defaults.headers.common.authorization = `Bearer ${TokenService.getToken()}`;
           UserService.getName();
           this.$router.push({ name: 'WorkshopsList' });
         }

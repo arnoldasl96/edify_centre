@@ -11,6 +11,12 @@
     </div>
 
     <div class="nav-list">
+      <div class="sidebar-hanburger">
+        <i
+          class="fas fa-bars"
+          @click="showSideBar"
+        />
+      </div>
       <router-link
         v-if="Loggedin"
         class="nav-link wider"
@@ -28,6 +34,7 @@
         v-if="!Loggedin"
         class="nav-link"
         to="/login"
+        tag="div"
       >
         login <i class="fas fa-sign-in-alt" />
       </router-link>
@@ -37,7 +44,7 @@
         to="/login"
         @click.prevent="logout()"
       >
-        logout <i class="fas fa-sign-in-alt" />
+        <span>  logout<i class="fas fa-sign-in-alt" /></span>
       </router-link>
     </div>
   </div>
@@ -71,6 +78,17 @@ export default {
       TokenService.removeAccessToken();
       TokenService.removeRefreshToken();
       this.$router.push('/login');
+    },
+    showSideBar() {
+      const check = document.getElementById('collapse-sidebar');
+      check.checked = !check.checked;
+      if (check.checked === true) {
+        document.getElementById('side-bar').style.marginLeft = '-120px';
+        document.getElementById('side-bar').style.width = '120px';
+      } else {
+        document.getElementById('side-bar').style.marginLeft = '0px';
+        document.getElementById('side-bar').style.width = '330px';
+      }
     },
   },
 };

@@ -1,10 +1,15 @@
 :root {
-    --primary-color: #F09A3E;
+    --primary-color: #EC7404;
     --primary-color-1: #ee8a1f;
+    --primary-color-2: #F09A3E;
     --secondary-color: #464D5F;
+    --secondary-color-1: #f0a926;
     --secondary-color-light: #888d9b;
     --dark-color: #000;
     --light-color: #fff;
     --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --shadow-1:5px 5px 15px 5px rgba(0, 0, 0, 0.5);
     --danger: rgb(255, 0, 0);
+   --loading-primary-color: rgba(240, 154, 62, 0.7);
+   --loading-secondary-light-color: rgba(136, 141, 155, 0.7);
 }

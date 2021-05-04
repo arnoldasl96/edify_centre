@@ -178,14 +178,13 @@ export default {
 </script>
 
 <style scoped>
-@import "../styles/variables.css";
 .settings {
   margin-top: 30px;
   margin-bottom: 30px;
   min-width: 450px;
   padding: 1px;
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--light-color);
 }
 .select-primary {
     width: 100%;

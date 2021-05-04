@@ -171,6 +171,7 @@ export default {
           id: 0,
           url: '',
           note: '',
+          name: 'no file chosen',
         },
       ],
       session: {
@@ -312,9 +313,8 @@ export default {
 </script>
 
 <style scoped>
-@import "../styles/variables.css";
 .coming-soon {
-  color: white;
+  color: var(--light-color);
   display: inline;
   font-weight: bold;
   margin: 5px;
@@ -345,12 +345,12 @@ export default {
 }
 .inner-session {
   background-color: var(--secondary-color-light);
-  width: 95%;
+  width: 100%;
   height: fit-content;
-  padding-bottom: 30px;
-  margin: 25px;
+  padding-bottom: 5px;
+  margin: 10px;
   border-radius: 4px;
-  color: white;
+  color: var(--light-color);
 }
 .flex-row {
   display: flex;

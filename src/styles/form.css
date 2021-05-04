@@ -1,4 +1,3 @@
-@import "./variables.css";
 .workshop-form {
     display: flex;
     text-transform: capitalize;
@@ -16,7 +15,7 @@
 }
 
 .bg-white {
-    background-color: white;
+    background-color: var(--light-color);
     color: black
 }
 
@@ -133,7 +132,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .ql-toolbar,
 .ql-editor {
-    background-color: white;
+    background-color: var(--light-color);
     color: #000;
 }
 

@@ -14,6 +14,6 @@ export default {
  <style>
 footer {
   background-color: aquamarine;
-  color: white;
+  color: var(--light-color);
 }
 </style>

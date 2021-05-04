@@ -16,7 +16,8 @@ module.exports = {
     'vue/require-prop-types': 'off',
     'vue/no-v-html': 'off',
     'guard-for-in':'off',
-    'linebreak-style': 'off'
+    'linebreak-style': 'off',
+    'vue/no-multiple-template-root': 'off',
   },
 
   extends: [

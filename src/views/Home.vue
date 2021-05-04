@@ -1,16 +1,16 @@
 <template>
   <div class="homepage">
-    <register-user />
+    <spinner />
   </div>
 </template>
 
 <script>
-import RegisterUser from '../components/RegisterUser.vue';
+import spinner from '../components/LoadingSkelets/spinner.vue';
 
 export default {
   name: 'Home',
   components: {
-    RegisterUser,
+    spinner,
 
   },
   data() {
@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../styles/variables.css";
 .homepage{
   display: flex;
   justify-content: center;

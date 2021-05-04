@@ -1,0 +1,101 @@
+.workshop-date {
+  color: var(--light-color);
+}
+.workshop {
+  background-color: var(--secondary-color);
+  margin: 20px;
+  border-radius: 15px;
+  border-color: var(--secondary-color-light);
+  border: 2px;
+  padding: 10px;
+  width: 80%;
+}
+.title h1,
+.title h3 {
+  display: inline;
+  color: var(--primary-color);
+  word-break: break-word;
+}
+.btn-more {
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  float: right;
+  font-size: 1.5em;
+  padding-inline: 1.5em;
+  border-radius: 9px;
+}
+.more {
+  margin-top: 1em;
+  height: 2em;
+  color: transparent;
+}
+
+.short-description {
+  color: white !important;
+  height: fit-content;
+  overflow: hidden;
+  word-break: break-word;
+}
+h1 {
+  margin-right: 2em;
+}
+.starting-loading {
+  margin-left: 3px;
+  height: 1em;
+  width: 15em;
+  position: relative;
+  overflow: hidden;
+  background-color: var( --loading-secondary-light-color);
+}
+.title-loading {
+  margin-top: 9px;
+  margin-left: 3px;
+  height: 1.5em;
+  width: 22em;
+  background-color: var(--loading-primary-color);
+  position: relative;
+  overflow: hidden;
+}
+.description-loading {
+  margin-top: 9px;
+  margin-left: 3px;
+  height: 6em;
+  width: 99%;
+  position: relative;
+  overflow: hidden;
+  background-color: var( --loading-secondary-light-color);
+}
+.see-more-loading {
+  float: right;
+  margin: 16px;
+  height: 2.5em;
+  width: 10em;
+  border-radius: 3px;
+  background-color: var(--loading-primary-color);
+  position: relative;
+  overflow: hidden;
+}
+.starting-loading::before,
+.title-loading::before,
+.description-loading::before,
+.see-more-loading::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  -webkit-animation: wave 1s infinite linear forwards;
+  animation: wave 1s infinite linear forwards;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+}

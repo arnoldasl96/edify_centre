@@ -1,16 +1,35 @@
 <template>
   <div class="workshop">
     <div class="title">
-      <h1>{{ data.title }}</h1>
-      <h3>{{ data.code }}</h3>
+      <div
+        v-if="!comingSoon"
+        class="workshop-date"
+      >
+        <span
+          v-if="started"
+          class="started"
+        >Started: {{ startingDate }}</span>
+        <span
+          v-else
+          class="started"
+        >Starts: {{ startingDate }}</span>
+      </div>
+      <div
+        v-else
+        class="workshop-date"
+      >
+        <span>Starting date will be shown soon</span>
+      </div>
+      <h1>{{ workshop.title }}</h1>
+      <h3>{{ workshop.code }}</h3>
     </div>
     <div class="short-description">
-      <div v-html="data.short_description" />
+      <div v-html="workshop.short_description" />
     </div>
     <div class="more">
       <router-link
         class="btn-more"
-        :to="{ name: 'workshopView', params: { id: data._id } }"
+        :to="{ name: 'workshopView', params: { id: workshop._id } }"
         exact
         tag="button"
       >
@@ -20,52 +39,42 @@
   </div>
 </template>
 <script>
+import moment from 'moment';
+
 export default {
   name: 'Workshop',
   props: {
-    // eslint-disable-next-line vue/require-default-prop
-    data: Object,
+    workshop: {
+      type: Object,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      startingDate: null,
+      comingSoon: false,
+      started: false,
+    };
+  },
+  mounted() {
+    if (this.workshop.date.ComingSoon === false) {
+      this.comingSoon = false;
+      const years = new Date(this.workshop.date.from).getFullYear();
+      const months = new Date(this.workshop.date.from).getMonth();
+      const days = new Date(this.workshop.date.from).getDate();
+      this.startingDate = moment([years, months, days]).fromNow();
+      if (this.startingDate.includes('ago')) {
+        this.started = true;
+      }
+      if (this.startingDate.includes('Invalid')) {
+        this.ComingSoon = true;
+      }
+    } else {
+      this.comingSoon = true;
+    }
   },
 };
 </script>
 
-<style scoped>
-@import "../styles/variables.css";
-
-.workshop {
-  background-color: var(--secondary-color);
-  margin: 20px;
-  border-radius: 15px;
-  border-color: var(--secondary-color-light);
-  border: 2px;
-  padding: 10px;
-  width: 80%;
-}
-.title h1,
-.title h3 {
-  display: inline;
-  color: var(--primary-color);
-}
-.btn-more {
-  color: var(--light-color);
-  background-color: var(--primary-color);
-  float: right;
-  font-size: 1.5em;
-  padding-inline: 1.5em;
-  border-radius: 9px;
-}
-.more {
-  margin-top: 1em;
-  height: 2em;
-  color: transparent;
-}
-
-.short-description {
-  color: white !important;
-  height: fit-content;
-  overflow: hidden;
-}
-h1 {
-  margin-right: 2em;
-}
+<style scoped src='../styles/workshopview.css'>
 </style>

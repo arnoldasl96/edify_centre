@@ -1,11 +1,5 @@
-@import "./variables.css";
-
-/* =====================
-    components
-========================
-*/
-
 .side-bar {
+    margin-left: 0px;
     background-color: var(--secondary-color);
     color: var(--light-color);
     width: 120px;
@@ -101,7 +95,7 @@ a span {
 }
 
 #collapse-sidebar:checked .container {
-    background-color: #fff;
+    background-color: var(--light-color);;
 }
 
 #collapse-sidebar {
@@ -118,8 +112,14 @@ a span {
 }
 
 @media (max-width: 1000px) {
+    .side-bar {
+        margin-left: -120px;
+    }
     .logout {
         display: block;
+    }
+    .arrow {
+        display: none;
     }
 }
 
